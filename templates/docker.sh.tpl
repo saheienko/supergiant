@@ -11,4 +11,17 @@ sudo wget -O $OUT_DIR/$(basename $URL) $URL
 sudo apt install -y $OUT_DIR/$(basename $URL)
 sudo rm $OUT_DIR/$(basename $URL)
 
+# Setup daemon.
+# https://kubernetes.io/docs/setup/cri/#docker
+sudo bash -c 'cat > /etc/docker/daemon.json <<EOF
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
+EOF'
+
 sudo systemctl enable docker.service
