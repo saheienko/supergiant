@@ -61,7 +61,7 @@ func (m *mockProfileCreator) Create(ctx context.Context, p *profile.Profile) err
 }
 
 func TestProvisionBadClusterName(t *testing.T) {
-	testCases := []string{"non_Valid`", "_@badClusterName"}
+	testCases := []string{"non_Valid`", "_@badKube.Name"}
 
 	for _, clusterName := range testCases {
 		provisionRequest := ProvisionRequest{
@@ -157,7 +157,7 @@ func TestProvisionHandler(t *testing.T) {
 				return nil, nil
 			},
 			provision: func(ctx context.Context, profile *profile.Profile, config *steps.Config) (map[string][]*workflows.Task, error) {
-				config.ClusterID = uuid.New()
+				config.Kube.ID = uuid.New()
 				return map[string][]*workflows.Task{
 					"master": {
 						{
@@ -216,7 +216,7 @@ func TestProvisionHandler(t *testing.T) {
 			}
 
 			if len(resp.ClusterID) == 0 {
-				t.Errorf("ClusterID must not be empty")
+				t.Errorf("Kube.ID must not be empty")
 			}
 		}
 	}

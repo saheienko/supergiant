@@ -161,7 +161,7 @@ func TestProvisionCluster(t *testing.T) {
 
 	// Cancel context to shut down cluster state monitoring
 	cancel()
-	if k, err := svc.Get(context.Background(), cfg.ClusterID); err == nil && k == nil {
+	if k, err := svc.Get(context.Background(), cfg.Kube.ID); err == nil && k == nil {
 		t.Errorf("Kube %s not found", k.ID)
 
 		if len(k.Tasks) != len(p.MasterProfiles)+len(p.NodesProfiles)+1 {
@@ -252,7 +252,7 @@ func TestProvisionNodes(t *testing.T) {
 		t.Errorf("Unexpected error %v", err)
 	}
 
-	config.ClusterID = k.ID
+	config.Kube.ID = k.ID
 
 	_, err = provisioner.ProvisionNodes(context.Background(),
 		[]profile.NodeProfile{nodeProfile}, k, config)
@@ -336,7 +336,7 @@ func TestRestartProvisionClusterSuccess(t *testing.T) {
 		t.Errorf("Unexpected error %v", err)
 	}
 
-	cfg.ClusterID = "kubeID"
+	cfg.Kube.ID = "kubeID"
 
 	err = provisioner.
 		RestartClusterProvisioning(context.Background(),
@@ -413,7 +413,7 @@ func TestRestartProvisionClusterError(t *testing.T) {
 		t.Errorf("Unexpected error %v", err)
 	}
 
-	cfg.ClusterID = "kubeID"
+	cfg.Kube.ID = "kubeID"
 
 	err = provisioner.
 		RestartClusterProvisioning(context.Background(),
@@ -614,11 +614,11 @@ func TestMonitorCluster(t *testing.T) {
 			t.Errorf("Unexpected error %v", err)
 		}
 
-		cfg.ClusterID = testCase.kube.ID
+		cfg.Kube.ID = testCase.kube.ID
 		logrus.Println(testCase.kube.ID)
 
 		ctx, cancel := context.WithCancel(context.Background())
-		go p.monitorClusterState(ctx, cfg.ClusterID, cfg.NodeChan(),
+		go p.monitorClusterState(ctx, cfg.Kube.ID, cfg.NodeChan(),
 			cfg.KubeStateChan(), cfg.ConfigChan())
 
 		for _, n := range testCase.nodes {
@@ -701,7 +701,9 @@ func TestBuildInitialCluster(t *testing.T) {
 	}
 
 	tp.buildInitialCluster(context.Background(), &profile.Profile{}, nil, nil, &steps.Config{
-		ClusterID: clusterID,
+		Kube: model.Kube{
+			ID: clusterID,
+		},
 	}, taskIds)
 
 	if k := service.data[clusterID]; k == nil {
