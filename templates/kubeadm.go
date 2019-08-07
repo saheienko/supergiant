@@ -36,7 +36,8 @@ localAPIEndpoint:
 nodeRegistration:
   kubeletExtraArgs:
     node-ip: {{ .NodeIp }}
-    {{ if .Provider }}cloud-provider: {{ .Provider }}{{ end }}
+    #{{ if .Provider }}cloud-provider: {{ .Provider }}{{ end }}
+    cloud-provider: external
 certificateKey: {{ .CertificateKey }}
 ---
 apiVersion: kubeadm.k8s.io/v1beta1
@@ -51,11 +52,11 @@ apiServer:
   - {{ .InternalDNSName }}
   extraArgs:
     authorization-mode: Node,RBAC
-    {{ if .Provider }}cloud-provider: {{ .Provider }}{{ end }}
+    #{{ if .Provider }}cloud-provider: {{ .Provider }}{{ end }}
   timeoutForControlPlane: 8m0s
 controllerManager:
   extraArgs:
-    {{ if .Provider }}cloud-provider: {{ .Provider }}{{ end }}
+    #{{ if .Provider }}cloud-provider: {{ .Provider }}{{ end }}
 dns:
   type: CoreDNS
 etcd:
@@ -79,7 +80,8 @@ kind: JoinConfiguration
 nodeRegistration:
   kubeletExtraArgs:
     node-ip: {{ .NodeIp }}
-    {{ if .Provider }}cloud-provider: {{ .Provider }}{{ end }}
+    #{{ if .Provider }}cloud-provider: {{ .Provider }}{{ end }}
+    cloud-provider: external
 discovery:
   bootstrapToken:
     token: {{ .Token }}
@@ -102,11 +104,11 @@ apiServer:
   - {{ .InternalDNSName }}
   extraArgs:
     authorization-mode: Node,RBAC
-    {{ if .Provider }}cloud-provider: {{ .Provider }}{{ end }}
+    #{{ if .Provider }}cloud-provider: {{ .Provider }}{{ end }}
   timeoutForControlPlane: 8m0s
 controllerManager:
   extraArgs:
-    {{ if .Provider }}cloud-provider: {{ .Provider }}{{ end }}
+    #{{ if .Provider }}cloud-provider: {{ .Provider }}{{ end }}
 dns:
   type: CoreDNS
 etcd:
@@ -139,7 +141,8 @@ kind: JoinConfiguration
 nodeRegistration:
   kubeletExtraArgs:
     node-ip: {{ .NodeIp }}
-    {{ if .Provider }}cloud-provider: {{ .Provider }}{{ end }}
+    #{{ if .Provider }}cloud-provider: {{ .Provider }}{{ end }}
+    cloud-provider: external
 discovery:
   bootstrapToken:
     token: {{ .Token }}
