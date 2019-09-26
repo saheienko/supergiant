@@ -37,6 +37,15 @@ func enableCors(w http.ResponseWriter) {
 }
 
 func (h *Handler) Authenticate(w http.ResponseWriter, r *http.Request) {
+	// swagger:route POST /auth signin auth
+	//
+	// Authenticate a user.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: authResponse
+	//
+
 	var ar AuthRequest
 
 	// not sure if this is needed after route gets protected again
@@ -67,6 +76,15 @@ func (h *Handler) Authenticate(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) RegisterRootUser(w http.ResponseWriter, r *http.Request) {
+	// swagger:route POST /root signin registerRoot
+	//
+	// Register the root user.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: emptyResponse
+	//
+
 	var user User
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		message.SendInvalidJSON(w, err)
@@ -96,17 +114,28 @@ func (h *Handler) RegisterRootUser(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+type ColdstartResponse struct {
+	IsColdStart bool `json:"isColdStart"`
+}
+
 func (h *Handler) IsColdStart(w http.ResponseWriter, r *http.Request) {
+	// swagger:route GET /coldstart signin coldstart
+	//
+	// Tells if any users are registered.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: coldstartResponse
+	//
+
 	coldstart, err := h.userService.IsColdStart(r.Context())
 	if err != nil {
 		message.SendUnknownError(w, err)
 		return
 	}
 
-	resp := &struct {
-		IsColdStart bool `json:"isColdStart"`
-	}{
-		coldstart,
+	resp := &ColdstartResponse{
+		IsColdStart: coldstart,
 	}
 
 	if err := json.NewEncoder(w).Encode(resp); err != nil {
@@ -115,6 +144,15 @@ func (h *Handler) IsColdStart(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) Create(rw http.ResponseWriter, r *http.Request) {
+	// swagger:route POST /api/v1/users users createUser
+	//
+	// Create a new user.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: emptyResponse
+	//
+
 	var user User
 
 	// not sure if this is needed after route gets protected again

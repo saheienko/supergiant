@@ -17,10 +17,9 @@ import (
 	"github.com/stretchr/testify/require"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	clientcmddapi "k8s.io/client-go/tools/clientcmd/api"
 	"k8s.io/helm/pkg/proto/hapi/chart"
 	"k8s.io/helm/pkg/proto/hapi/release"
-
-	clientcmddapi "k8s.io/client-go/tools/clientcmd/api"
 
 	"github.com/supergiant/control/pkg/clouds"
 	"github.com/supergiant/control/pkg/message"
@@ -1032,7 +1031,7 @@ func TestAddNodeToKube(t *testing.T) {
 		rec := httptest.NewRecorder()
 		router := mux.NewRouter()
 
-		router.HandleFunc("/kubes/{kubeID}/nodes", h.addMachine)
+		router.HandleFunc("/kubes/{kubeID}/nodes", h.addNodes)
 		router.ServeHTTP(rec, req)
 
 		if rec.Code != testCase.expectedCode {
@@ -1215,7 +1214,7 @@ func TestDeleteNodeFromKube(t *testing.T) {
 		}
 
 		router := mux.NewRouter()
-		router.HandleFunc("/{kubeID}/nodes/{nodename}", handler.deleteMachine).Methods(http.MethodDelete)
+		router.HandleFunc("/{kubeID}/nodes/{nodename}", handler.deleteNode).Methods(http.MethodDelete)
 
 		req, _ := http.NewRequest(http.MethodDelete, fmt.Sprintf("/%s/nodes/%s", testCase.kubeName, testCase.nodeName), nil)
 		rec := httptest.NewRecorder()
@@ -1597,8 +1596,8 @@ func TestHandler_installRelease(t *testing.T) {
 			mock.Anything, mock.Anything).Return("", nil)
 		h := &Handler{svc: tc.kubeSvc, profileSvc: profileSvc, chartGetter: getChartMock,
 			repo: mockRepo, getWriter: func(string) (io.WriteCloser, error) {
-			return &bufferCloser{}, nil
-		}}
+				return &bufferCloser{}, nil
+			}}
 
 		router := mux.NewRouter()
 		h.Register(router)

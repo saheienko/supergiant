@@ -182,45 +182,213 @@ func NewHandler(
 
 // Register adds kube handlers to a router.
 func (h *Handler) Register(r *mux.Router) {
+	// swagger:route POST /v1/api/kubes kubes createKube
+	//
+	// Create a kube model.
+	//
+	// Responses:
+	// default: errorResponse
+	// 202: emptyResponse
+	//
 	r.HandleFunc("/kubes", h.createKube).Methods(http.MethodPost)
+
+	// swagger:route GET /v1/api/kubes kubes listKubes
+	//
+	// List kube models.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: listKubesResponse
+	//
 	r.HandleFunc("/kubes", h.listKubes).Methods(http.MethodGet)
+
+	// TODO: review this and annotate with swagger
+	r.HandleFunc("/kubes/{kubeID}", h.upgradeKube).Methods(http.MethodPatch)
+
+	// swagger:route POST /v1/api/kubes/import kubes importKube
+	//
+	// Import a kubernetes cluster.
+	//
+	// Responses:
+	// default: errorResponse
+	// 202: importKubeResponse
+	//
 	r.HandleFunc("/kubes/import", h.importKube).Methods(http.MethodPost)
+
+	// swagger:route GET /v1/api/kubes/{kubeID} kubes getKube
+	//
+	// Get a kube model.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: kubeResponse
+	//
 	r.HandleFunc("/kubes/{kubeID}", h.getKube).Methods(http.MethodGet)
+
+	// swagger:route DELETE /v1/api/kubes/{kubeID} kubes deleteKube
+	//
+	// Delete a kubernetes cluster.
+	//
+	// Responses:
+	// default: errorResponse
+	// 202: emptyResponse
+	//
 	r.HandleFunc("/kubes/{kubeID}", h.deleteKube).Methods(http.MethodDelete)
 
+	// swagger:route GET /v1/api/kubes/{kubeID}/users/{uname}/kubeconfig kubes getKubeconfig
+	//
+	// Get a kubeconfig for a given user.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: kubeconfigResponse
+	//
 	r.HandleFunc("/kubes/{kubeID}/users/{uname}/kubeconfig", h.getKubeconfig).Methods(http.MethodGet)
 
+	// TODO: review this and annotate with swagger
 	r.HandleFunc("/kubes/{kubeID}/resources", h.listResources).Methods(http.MethodGet)
+
+	// TODO: review this and annotate with swagger
 	r.HandleFunc("/kubes/{kubeID}/resources/{resource}", h.getResource).Methods(http.MethodGet)
 
+	// swagger:route POST /v1/api/kubes/{kubeID}/releases kubes installRelease
+	//
+	// Install a helm release to a kubernetes cluster.
+	//
+	// Responses:
+	// default: errorResponse
+	// 202: installReleaseResponse
+	//
 	r.HandleFunc("/kubes/{kubeID}/releases", h.installRelease).Methods(http.MethodPost)
+
+	// swagger:route GET /v1/api/kubes/{kubeID}/releases kubes listReleases
+	//
+	// List helm releases installed to a kubernetes cluster.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: listReleasesResponse
+	//
 	r.HandleFunc("/kubes/{kubeID}/releases", h.listReleases).Methods(http.MethodGet)
+
+	// swagger:route GET /v1/api/kubes/{kubeID}/releases/{releaseName} kubes getRelease
+	//
+	// Get a helm release details.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: releaseResponse
+	//
 	r.HandleFunc("/kubes/{kubeID}/releases/{releaseName}", h.getRelease).Methods(http.MethodGet)
+
+	// swagger:route DELETE /v1/api/kubes/{kubeID}/releases/{releaseName} kubes deleteRelease
+	//
+	// Delete a helm release.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: deleteReleaseResponse
+	//
 	r.HandleFunc("/kubes/{kubeID}/releases/{releaseName}", h.deleteReleases).Methods(http.MethodDelete)
 
+	// TODO: review this and annotate with swagger
 	r.HandleFunc("/kubes/{kubeID}/certs/{cname}", h.getCerts).Methods(http.MethodGet)
+
+	// swagger:route GET /v1/api/kubes/{kubeID}/tasks kubes listTasks
+	//
+	// List a kube tasks.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: listTasksResponse
+	//
 	r.HandleFunc("/kubes/{kubeID}/tasks", h.getTasks).Methods(http.MethodGet)
 
-	// DEPRECATED: has been moved to /kubes/{kubeID}/machines
-	r.HandleFunc("/kubes/{kubeID}/nodes", h.addMachine).Methods(http.MethodPost)
+	// swagger:route POST /v1/api/kubes/{kubeID}/nodes kubes addNodes
+	//
+	// Add machine to a cluster.
+	//
+	// Responses:
+	// default: errorResponse
+	// 202: addNodesResponse
+	//
+	r.HandleFunc("/kubes/{kubeID}/nodes", h.addNodes).Methods(http.MethodPost)
 
-	// DEPRECATED: has been moved to /kubes/{kubeID}/machines
-	r.HandleFunc("/kubes/{kubeID}/nodes/{nodename}", h.deleteMachine).Methods(http.MethodDelete)
-
+	// swagger:route GET /v1/api/kubes/{kubeID}/nodes kubes listNodes
+	//
+	// List cluster nodes.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: listNodesResponse
+	//
 	r.HandleFunc("/kubes/{kubeID}/nodes", h.listNodes).Methods(http.MethodGet)
 
-	r.HandleFunc("/kubes/{kubeID}/machines", h.addMachine).Methods(http.MethodPost)
-	r.HandleFunc("/kubes/{kubeID}/machines/{nodename}", h.deleteMachine).Methods(http.MethodDelete)
+	// swagger:route DELETE /v1/api/kubes/{kubeID}/nodes{nodeName} kubes deleteNode
+	//
+	// Delete a node from a kubernetes cluster
+	//
+	// Responses:
+	// default: errorResponse
+	// 202: emptyResponse
+	//
+	r.HandleFunc("/kubes/{kubeID}/nodes/{nodename}", h.deleteNode).Methods(http.MethodDelete)
 
+	// TODO: review this and annotate with swagger
 	r.HandleFunc("/kubes/{kubeID}/spot", h.addSpotMachine).Methods(http.MethodPost)
+
+	// TODO: review this and annotate with swagger
 	r.HandleFunc("/kubes/{kubeID}/spot/{machineType}/price", h.spotMachinePrice).Methods(http.MethodGet)
 
+	// swagger:route GET /v1/api/kubes/{kubeID}/nodes/metrics kubes getNodesMetrics
+	//
+	// Get kubernetes metrics for nodes.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: nodeMetricsResponse
+	//
 	r.HandleFunc("/kubes/{kubeID}/nodes/metrics", h.getNodesMetrics).Methods(http.MethodGet)
+
+	// swagger:route GET /v1/api/kubes/{kubeID}/metrics kubes getClusterMetrics
+	//
+	// Get kubernetes cluster metrics.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: clusterMetricsResponse
+	//
 	r.HandleFunc("/kubes/{kubeID}/metrics", h.getClusterMetrics).Methods(http.MethodGet)
+
+	// swagger:route GET /v1/api/kubes/{kubeID}/services kubes listServices
+	//
+	// List kubernetes services for proxying.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: listServicesResponse
+	//
 	r.HandleFunc("/kubes/{kubeID}/services", h.getServices).Methods(http.MethodGet)
+
+	// swagger:route POST /v1/api/kubes/{kubeID}/restart kubes restartProvisioning
+	//
+	// Restart a cluster provisioning.
+	//
+	// Responses:
+	// default: errorResponse
+	// 202: emptyResponse
+	//
 	r.HandleFunc("/kubes/{kubeID}/restart", h.restartKubeProvisioning).Methods(http.MethodPost)
-	r.HandleFunc("/kubes/{kubeID}", h.upgradeKube).Methods(http.MethodPatch)
+
+	// TODO: review this and annotate with swagger
 	r.HandleFunc("/kubes/{kubeID}/apply", h.applyToKube).Methods(http.MethodPost)
+}
+
+type TaskDTO struct {
+	ID           string                 `json:"id"`
+	Type         string                 `json:"type"`
+	Status       statuses.Status        `json:"status"`
+	StepStatuses []workflows.StepStatus `json:"stepsStatuses"`
 }
 
 func (h *Handler) getTasks(w http.ResponseWriter, r *http.Request) {
@@ -249,17 +417,10 @@ func (h *Handler) getTasks(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	type taskDTO struct {
-		ID           string                 `json:"id"`
-		Type         string                 `json:"type"`
-		Status       statuses.Status        `json:"status"`
-		StepStatuses []workflows.StepStatus `json:"stepsStatuses"`
-	}
-
-	resp := make([]taskDTO, 0, len(tasks))
+	resp := make([]TaskDTO, 0, len(tasks))
 
 	for _, task := range tasks {
-		resp = append(resp, taskDTO{
+		resp = append(resp, TaskDTO{
 			ID:           task.ID,
 			Type:         task.Type,
 			Status:       task.Status,
@@ -591,7 +752,7 @@ func (h *Handler) listNodes(w http.ResponseWriter, r *http.Request) {
 }
 
 // Add node to working kube
-func (h *Handler) addMachine(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) addNodes(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	kubeID := vars["kubeID"]
 	k, err := h.svc.Get(r.Context(), kubeID)
@@ -683,7 +844,7 @@ func (h *Handler) addMachine(w http.ResponseWriter, r *http.Request) {
 }
 
 // TODO(stgleb): cover with unit tests
-func (h *Handler) deleteMachine(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) deleteNode(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
 	kubeID := vars["kubeID"]
@@ -878,6 +1039,10 @@ func (h *Handler) cleanUpKube(kubeID string) error {
 	return nil
 }
 
+type InstallReleaseResp struct {
+	TaskID string `json:"taskId"`
+}
+
 func (h *Handler) installRelease(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
@@ -984,9 +1149,7 @@ func (h *Handler) installRelease(w http.ResponseWriter, r *http.Request) {
 		}
 	}()
 
-	if err = json.NewEncoder(w).Encode(struct {
-		TaskID string `json:"taskId"`
-	}{
+	if err = json.NewEncoder(w).Encode(InstallReleaseResp{
 		TaskID: installAppTask.ID,
 	}); err != nil {
 		logrus.Errorf("helm: install release: %s cluster: %s/%s: write response: %s",
@@ -1348,17 +1511,21 @@ func (h *Handler) restartKubeProvisioning(w http.ResponseWriter, r *http.Request
 	w.WriteHeader(http.StatusAccepted)
 }
 
-func (h *Handler) importKube(w http.ResponseWriter, r *http.Request) {
-	type importRequest struct {
-		KubeConfig       string          `json:"kubeconfig"`
-		ClusterName      string          `json:"clusterName"`
-		CloudAccountName string          `json:"cloudAccountName"`
-		PublicKey        string          `json:"publicKey"`
-		PrivateKey       string          `json:"privateKey"`
-		Profile          profile.Profile `json:"profile" valid:"-"`
-	}
+type ImportRequest struct {
+	KubeConfig       string          `json:"kubeconfig"`
+	ClusterName      string          `json:"clusterName"`
+	CloudAccountName string          `json:"cloudAccountName"`
+	PublicKey        string          `json:"publicKey"`
+	PrivateKey       string          `json:"privateKey"`
+	Profile          profile.Profile `json:"profile" valid:"-"`
+}
 
-	var req importRequest
+type ImportResponse struct {
+	ClusterID string `json:"clusterId"`
+}
+
+func (h *Handler) importKube(w http.ResponseWriter, r *http.Request) {
+	var req ImportRequest
 	var err error
 
 	err = json.NewDecoder(r.Body).Decode(&req)
@@ -1465,9 +1632,7 @@ func (h *Handler) importKube(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusAccepted)
-	err = json.NewEncoder(w).Encode(struct {
-		ClusterID string `json:"clusterId"`
-	}{
+	err = json.NewEncoder(w).Encode(ImportResponse{
 		ClusterID: clusterID,
 	})
 

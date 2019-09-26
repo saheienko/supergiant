@@ -23,8 +23,34 @@ func NewHandler(service *Service) *Handler {
 }
 
 func (h *Handler) Register(r *mux.Router) {
+	// swagger:route GET /v1/api/kubeprofiles/{kubeprofileID} profiles getProfile
+	//
+	// Get a profile.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: profileResponse
+	//
 	r.HandleFunc("/kubeprofiles/{id}", h.GetProfile).Methods(http.MethodGet)
+
+	// swagger:route POST /v1/api/kubeprofiles profiles createProfile
+	//
+	// Create a profile.
+	//
+	// Responses:
+	// default: errorResponse
+	// 201: emptyResponse
+	//
 	r.HandleFunc("/kubeprofiles", h.CreateProfile).Methods(http.MethodPost)
+
+	// swagger:route GET /v1/api/kubeprofiles profiles listProfiles
+	//
+	// List profiles.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: listProfilesResponse
+	//
 	r.HandleFunc("/kubeprofiles", h.GetProfiles).Methods(http.MethodGet)
 }
 

@@ -31,13 +31,84 @@ func NewHandler(service *Service) *Handler {
 }
 
 func (h *Handler) Register(r *mux.Router) {
+	// swagger:route POST /api/v1/accounts accounts createAccount
+	//
+	// Create a new cloud account.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: emptyResponse
+	//
 	r.HandleFunc("/accounts", h.Create).Methods(http.MethodPost)
+
+	// swagger:route GET /api/v1/accounts accounts listAccounts
+	//
+	// List all cloud accounts.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: listAccountsResponse
+	//
 	r.HandleFunc("/accounts", h.ListAll).Methods(http.MethodGet)
+
+	// swagger:route GET /api/v1/accounts/{accountName} accounts getAccount
+	//
+	// Get a cloud account.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: accountResponse
+	//
 	r.HandleFunc("/accounts/{accountName}", h.Get).Methods(http.MethodGet)
+
+	// swagger:route PUT /api/v1/accounts/{accountName} accounts updateAccount
+	//
+	// Update a cloud account.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: emptyResponse
+	//
 	r.HandleFunc("/accounts/{accountName}", h.Update).Methods(http.MethodPut)
+
+	// swagger:route DELETE /api/v1/accounts/{accountName} accounts deleteAccount
+	//
+	// Delete a cloud account.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: emptyResponse
+	//
 	r.HandleFunc("/accounts/{accountName}", h.Delete).Methods(http.MethodDelete)
+
+	// swagger:route GET /api/v1/accounts/{accountName}/regions accounts getAccountRegions
+	//
+	// Get region details a given cloud account.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: accountRegionsResponse
+	//
 	r.HandleFunc("/accounts/{accountName}/regions", h.GetRegions).Methods(http.MethodGet)
+
+	// swagger:route GET /api/v1/accounts/{accountName}/regions/{region}/az accounts getAccountZones
+	//
+	// Get availability zone details a given cloud account.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: accountZonesResponse
+	//
 	r.HandleFunc("/accounts/{accountName}/regions/{region}/az", h.GetAZs).Methods(http.MethodGet)
+
+	// swagger:route GET /api/v1/accounts/{accountName}/regions/{region}/az/{az}/types accounts getAccountTypes
+	//
+	// Get virtual machine details for a given cloud account.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: accountTypesResponse
+	//
 	r.HandleFunc("/accounts/{accountName}/regions/{region}/az/{az}/types", h.GetTypes).Methods(http.MethodGet)
 }
 

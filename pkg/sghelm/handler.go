@@ -29,13 +29,74 @@ func NewHandler(svc *Service) *Handler {
 
 // Register adds helm specific api to the main handler.
 func (h *Handler) Register(r *mux.Router) {
+	// swagger:route POST /v1/api/helm/repositories repositories createRepo
+	//
+	// Create a helm repository.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: repositoryResponse
+	//
 	r.HandleFunc("/helm/repositories", h.createRepo).Methods(http.MethodPost)
+
+	// swagger:route GET /v1/api/helm/repositories/{repoName} repositories getRepo
+	//
+	// Get a helm repository.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: repositoryResponse
+	//
 	r.HandleFunc("/helm/repositories/{repoName}", h.getRepo).Methods(http.MethodGet)
+
+	// swagger:route PATCH /v1/api/helm/repositories/{repoName} repositories updateRepo
+	//
+	// Update a helm repository.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: repositoryResponse
+	//
 	r.HandleFunc("/helm/repositories/{repoName}", h.updateRepo).Methods(http.MethodPatch)
+
+	// swagger:route GET /v1/api/helm/repositories repositories listRepos
+	//
+	// List helm repositories.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: listReposResponse
+	//
 	r.HandleFunc("/helm/repositories", h.listRepos).Methods(http.MethodGet)
+
+	// swagger:route DELETE /v1/api/helm/repositories/{repoName} repositories deleteRepo
+	//
+	// Delete a helm repository.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: repositoryResponse
+	//
 	r.HandleFunc("/helm/repositories/{repoName}", h.deleteRepo).Methods(http.MethodDelete)
 
+	// swagger:route GET /v1/api/helm/repositories/{repoName}/charts repositories listCharts
+	//
+	// Get charts for the given helm repository.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: listChartsResponse
+	//
 	r.HandleFunc("/helm/repositories/{repoName}/charts", h.listCharts).Methods(http.MethodGet)
+
+	// swagger:route GET /v1/api/helm/repositories/{repoName}/charts/{chartName} repositories getChart
+	//
+	// Get a chart from the given helm repository.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: chartResponse
+	//
 	r.HandleFunc("/helm/repositories/{repoName}/charts/{chartName}", h.getChartData).Methods(http.MethodGet)
 }
 

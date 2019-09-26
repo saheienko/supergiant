@@ -3,12 +3,10 @@ package workflows
 import (
 	"context"
 	"fmt"
-	"html/template"
 	"io"
 	"net/http"
 	"os"
 	"path"
-	"strings"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -81,11 +79,35 @@ func NewTaskHandler(repository storage.Interface, runnerFactory func(config ssh.
 }
 
 func (h *TaskHandler) Register(m *mux.Router) {
+	// swagger:route GET /v1/api/tasks/{taskID} tasks getTask
+	//
+	// Get a task.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: taskResponse
+	//
 	m.HandleFunc("/tasks/{id}", h.GetTask).Methods(http.MethodGet)
-	m.HandleFunc("/tasks/{id}/restart",
-		h.RestartTask).Methods(http.MethodPost)
+
+	// swagger:route POST /v1/api/tasks/{taskID}/restart tasks restartTask
+	//
+	// Restart a task.
+	//
+	// Responses:
+	// default: errorResponse
+	// 202: emptyResponse
+	//
+	m.HandleFunc("/tasks/{id}/restart", h.RestartTask).Methods(http.MethodPost)
+
+	// swagger:route POST /v1/api/tasks/{taskID}/logs tasks streamLogs
+	//
+	// Set up a websocket connection for logs streaming.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: emptyResponse
+	//
 	m.HandleFunc("/tasks/{id}/logs", h.StreamLogs).Methods(http.MethodGet)
-	m.HandleFunc("/tasks/{id}/logs/ws", h.GetLogs).Methods(http.MethodGet)
 }
 
 func (h *TaskHandler) GetTask(w http.ResponseWriter, r *http.Request) {
@@ -144,56 +166,6 @@ func (h *TaskHandler) RestartTask(w http.ResponseWriter, r *http.Request) {
 
 	task.Run(context.Background(), *task.Config, writer)
 	w.WriteHeader(http.StatusAccepted)
-}
-
-// NOTE(stgleb): This is made for testing purposes and example, remove when UI is done.
-func (h *TaskHandler) GetLogs(w http.ResponseWriter, r *http.Request) {
-	authHeader := r.Header.Get("Authorization")
-	tokenString := ""
-	ts := strings.Split(authHeader, " ")
-
-	if len(ts) > 1 {
-		tokenString = ts[1]
-	}
-
-	page := `<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>WebSocket Example</title>
-    </head>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-    
-    <body>
-        <div id="logs"></div>
-        <script type="text/javascript">
-            (function() {
-                var conn = new WebSocket("ws://{{ .Host }}/v1/api/tasks/{{ .TaskID }}/logs?token={{ .Token }}");
-                conn.onmessage = function(evt) {
-                    console.log('file updated');
- 					$('#logs').append("<p>" + evt.data + "</p>");
-                }
-            })();
-        </script>
-    </body>
-</html>`
-	tpl := template.Must(template.New("").Parse(page))
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	vars := mux.Vars(r)
-	id := vars["id"]
-
-	var v = struct {
-		Host   string
-		TaskID string
-		Token  string
-	}{
-		r.Host,
-		id,
-		tokenString,
-	}
-	err := tpl.Execute(w, &v)
-	if err != nil {
-		logrus.Error(err)
-	}
 }
 
 func (h *TaskHandler) StreamLogs(w http.ResponseWriter, r *http.Request) {

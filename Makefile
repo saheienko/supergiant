@@ -4,6 +4,10 @@ DOCKER_IMAGE_NAME := supergiant/control
 DOCKER_IMAGE_TAG := $(shell git describe --tags --always | tr -d v || echo 'latest')
 VERSION := $(shell git describe --always --long --dirty)
 
+SWAGGER_ROOT = ./pkg
+SWAGGER_SPEC = ./apidocs/swagger.json
+SWAGGER_CLIENT = pkg/capacityclient
+
 .PHONY: build test push release
 
 fmt: gofmt goimports
@@ -45,6 +49,10 @@ build-ui:
 
 gogen:
 	go -mod=vendor generate ./pkg/account
+
+swagger:
+	swagger generate -q spec -w $(SWAGGER_ROOT) -o $(SWAGGER_SPEC)
+	swagger validate $(SWAGGER_SPEC)
 
 vendor-sync:
 	go mod tidy

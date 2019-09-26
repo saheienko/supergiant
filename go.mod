@@ -36,10 +36,8 @@ require (
 	github.com/elazarl/goproxy v0.0.0-20170405201442-c4fc26588b6e // indirect
 	github.com/etcd-io/bbolt v0.0.0-20190125183005-8693da9f4d97
 	github.com/evanphx/json-patch v4.2.0+incompatible // indirect
-	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/golang/groupcache v0.0.0-20160516000752-02826c3e7903 // indirect
-	github.com/golang/mock v1.2.0 // indirect
 	github.com/golang/protobuf v1.3.0
 	github.com/google/btree v1.0.0 // indirect
 	github.com/google/go-cmp v0.3.0 // indirect
@@ -51,7 +49,6 @@ require (
 	github.com/gorilla/mux v1.6.2
 	github.com/gorilla/websocket v1.4.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0 // indirect
-	github.com/grpc-ecosystem/grpc-gateway v1.6.2 // indirect
 	github.com/hpcloud/tail v1.0.0
 	github.com/huandu/xstrings v0.0.0-20180906151751-8bbcf2f9ccb5 // indirect
 	github.com/imdario/mergo v0.3.7
@@ -89,9 +86,7 @@ require (
 	google.golang.org/api v0.3.0
 	google.golang.org/genproto v0.0.0-20190321212433-e79c0c59cdb5 // indirect
 	gopkg.in/asaskevich/govalidator.v8 v8.0.0-20171111151018-521b25f4b05f
-	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
-	gopkg.in/yaml.v2 v2.2.2 // indirect
 	k8s.io/api v0.0.0-20190703205437-39734b2a72fe
 	k8s.io/apiextensions-apiserver v0.0.0-00010101000000-000000000000 // indirect
 	k8s.io/apimachinery v0.0.0-20190703205208-4cfb76a8bf76

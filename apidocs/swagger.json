@@ -1,0 +1,3525 @@
+{
+  "consumes": [
+    "application/json",
+    "text/plain"
+  ],
+  "produces": [
+    "application/json",
+    "text/plain"
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "This documentation describes the Supergiant Control API.",
+    "title": "Supergiant Control API.",
+    "license": {
+      "name": "Apache 2.0"
+    },
+    "version": "2.1.2"
+  },
+  "basePath": "/",
+  "paths": {
+    "/api/v1/accounts": {
+      "get": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "List all cloud accounts.",
+        "operationId": "listAccounts",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/listAccountsResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Create a new cloud account.",
+        "operationId": "createAccount",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/CloudAccount"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/emptyResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{accountName}": {
+      "get": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Get a cloud account.",
+        "operationId": "getAccount",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "AccountName",
+            "name": "accountName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/accountResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Update a cloud account.",
+        "operationId": "updateAccount",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "AccountName",
+            "name": "accountName",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/CloudAccount"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/emptyResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Delete a cloud account.",
+        "operationId": "deleteAccount",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "AccountName",
+            "name": "accountName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/emptyResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{accountName}/regions": {
+      "get": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Get region details a given cloud account.",
+        "operationId": "getAccountRegions",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "AccountName",
+            "name": "accountName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/accountRegionsResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{accountName}/regions/{region}/az": {
+      "get": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Get availability zone details a given cloud account.",
+        "operationId": "getAccountZones",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "AccountName",
+            "name": "accountName",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "Region",
+            "name": "region",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/accountZonesResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{accountName}/regions/{region}/az/{az}/types": {
+      "get": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Get virtual machine details for a given cloud account.",
+        "operationId": "getAccountTypes",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "AccountName",
+            "name": "accountName",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "Region",
+            "name": "region",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "AZ",
+            "name": "az",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/accountTypesResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/api/v1/users": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create a new user.",
+        "operationId": "createUser",
+        "parameters": [
+          {
+            "name": "Req",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/emptyResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/auth": {
+      "post": {
+        "tags": [
+          "signin"
+        ],
+        "summary": "Authenticate a user.",
+        "operationId": "auth",
+        "parameters": [
+          {
+            "name": "Req",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/AuthRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/authResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/coldstart": {
+      "get": {
+        "tags": [
+          "signin"
+        ],
+        "summary": "Tells if any users are registered.",
+        "operationId": "coldstart",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/coldstartResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/root": {
+      "post": {
+        "tags": [
+          "signin"
+        ],
+        "summary": "Register the root user.",
+        "operationId": "registerRoot",
+        "parameters": [
+          {
+            "name": "Req",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/emptyResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/helm/repositories": {
+      "get": {
+        "tags": [
+          "repositories"
+        ],
+        "summary": "List helm repositories.",
+        "operationId": "listRepos",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/listReposResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "repositories"
+        ],
+        "summary": "Create a helm repository.",
+        "operationId": "createRepo",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Entry"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/repositoryResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/helm/repositories/{repoName}": {
+      "get": {
+        "tags": [
+          "repositories"
+        ],
+        "summary": "Get a helm repository.",
+        "operationId": "getRepo",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "RepoName",
+            "name": "repoName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/repositoryResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "repositories"
+        ],
+        "summary": "Delete a helm repository.",
+        "operationId": "deleteRepo",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "RepoName",
+            "name": "repoName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/repositoryResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "repositories"
+        ],
+        "summary": "Update a helm repository.",
+        "operationId": "updateRepo",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "RepoName",
+            "name": "repoName",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Entry"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/repositoryResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/helm/repositories/{repoName}/charts": {
+      "get": {
+        "tags": [
+          "repositories"
+        ],
+        "summary": "Get charts for the given helm repository.",
+        "operationId": "listCharts",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "RepoName",
+            "name": "repoName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/listChartsResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/helm/repositories/{repoName}/charts/{chartName}": {
+      "get": {
+        "tags": [
+          "repositories"
+        ],
+        "summary": "Get a chart from the given helm repository.",
+        "operationId": "getChart",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "RepoName",
+            "name": "repoName",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "chartName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/chartResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/kubeprofiles": {
+      "get": {
+        "tags": [
+          "profiles"
+        ],
+        "summary": "List profiles.",
+        "operationId": "listProfiles",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/listProfilesResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "profiles"
+        ],
+        "summary": "Create a profile.",
+        "operationId": "createProfile",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Profile"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/emptyResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/kubeprofiles/{kubeprofileID}": {
+      "get": {
+        "tags": [
+          "profiles"
+        ],
+        "summary": "Get a profile.",
+        "operationId": "getProfile",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "KubeprofileID",
+            "name": "kubeprofileID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/profileResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/kubes": {
+      "get": {
+        "tags": [
+          "kubes"
+        ],
+        "summary": "List kube models.",
+        "operationId": "listKubes",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/listKubesResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "kubes"
+        ],
+        "summary": "Create a kube model.",
+        "operationId": "createKube",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Kube"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "$ref": "#/responses/emptyResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/kubes/import": {
+      "post": {
+        "tags": [
+          "kubes"
+        ],
+        "summary": "Import a kubernetes cluster.",
+        "operationId": "importKube",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ImportRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "$ref": "#/responses/importKubeResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/kubes/{kubeID}": {
+      "get": {
+        "tags": [
+          "kubes"
+        ],
+        "summary": "Get a kube model.",
+        "operationId": "getKube",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "KubeID",
+            "name": "kubeID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/kubeResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "kubes"
+        ],
+        "summary": "Delete a kubernetes cluster.",
+        "operationId": "deleteKube",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "KubeID",
+            "name": "kubeID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "202": {
+            "$ref": "#/responses/emptyResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/kubes/{kubeID}/metrics": {
+      "get": {
+        "tags": [
+          "kubes"
+        ],
+        "summary": "Get kubernetes cluster metrics.",
+        "operationId": "getClusterMetrics",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "KubeID",
+            "name": "kubeID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/clusterMetricsResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/kubes/{kubeID}/nodes": {
+      "get": {
+        "tags": [
+          "kubes"
+        ],
+        "summary": "List cluster nodes.",
+        "operationId": "listNodes",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "KubeID",
+            "name": "kubeID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "Role",
+            "name": "role",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/listNodesResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "kubes"
+        ],
+        "summary": "Add machine to a cluster.",
+        "operationId": "addNodes",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "KubeID",
+            "name": "kubeID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/NodeProfile"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "$ref": "#/responses/addNodesResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/kubes/{kubeID}/nodes/metrics": {
+      "get": {
+        "tags": [
+          "kubes"
+        ],
+        "summary": "Get kubernetes metrics for nodes.",
+        "operationId": "getNodesMetrics",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "KubeID",
+            "name": "kubeID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/nodeMetricsResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/kubes/{kubeID}/nodes{nodeName}": {
+      "delete": {
+        "description": "Delete a node from a kubernetes cluster",
+        "tags": [
+          "kubes"
+        ],
+        "operationId": "deleteNode",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "KubeID",
+            "name": "kubeID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "NodeName",
+            "name": "nodeName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "202": {
+            "$ref": "#/responses/emptyResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/kubes/{kubeID}/releases": {
+      "get": {
+        "tags": [
+          "kubes"
+        ],
+        "summary": "List helm releases installed to a kubernetes cluster.",
+        "operationId": "listReleases",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "KubeID",
+            "name": "kubeID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/listReleasesResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "kubes"
+        ],
+        "summary": "Install a helm release to a kubernetes cluster.",
+        "operationId": "installRelease",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "KubeID",
+            "name": "kubeID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/InstallAppConfig"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "$ref": "#/responses/installReleaseResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/kubes/{kubeID}/releases/{releaseName}": {
+      "get": {
+        "tags": [
+          "kubes"
+        ],
+        "summary": "Get a helm release details.",
+        "operationId": "getRelease",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "KubeID",
+            "name": "kubeID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "ReleaseName",
+            "name": "releaseName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/releaseResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "kubes"
+        ],
+        "summary": "Delete a helm release.",
+        "operationId": "deleteRelease",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "KubeID",
+            "name": "kubeID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "ReleaseName",
+            "name": "releaseName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/deleteReleaseResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/kubes/{kubeID}/restart": {
+      "post": {
+        "tags": [
+          "kubes"
+        ],
+        "summary": "Restart a cluster provisioning.",
+        "operationId": "restartProvisioning",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "KubeID",
+            "name": "kubeID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "202": {
+            "$ref": "#/responses/emptyResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/kubes/{kubeID}/services": {
+      "get": {
+        "tags": [
+          "kubes"
+        ],
+        "summary": "List kubernetes services for proxying.",
+        "operationId": "listServices",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "KubeID",
+            "name": "kubeID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/listServicesResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/kubes/{kubeID}/tasks": {
+      "get": {
+        "tags": [
+          "kubes"
+        ],
+        "summary": "List a kube tasks.",
+        "operationId": "listTasks",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "KubeID",
+            "name": "kubeID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/listTasksResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/kubes/{kubeID}/users/{uname}/kubeconfig": {
+      "get": {
+        "tags": [
+          "kubes"
+        ],
+        "summary": "Get a kubeconfig for a given user.",
+        "operationId": "getKubeconfig",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "KubeID",
+            "name": "kubeID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "Uname",
+            "name": "uname",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/kubeconfigResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/provision": {
+      "post": {
+        "tags": [
+          "kubes"
+        ],
+        "summary": "Provision a kubernetes cluster.",
+        "operationId": "provision",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ProvisionRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "$ref": "#/responses/provisionResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/tasks/{taskID}": {
+      "get": {
+        "tags": [
+          "tasks"
+        ],
+        "summary": "Get a task.",
+        "operationId": "getTask",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "TaskID",
+            "name": "taskID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/taskResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/tasks/{taskID}/logs": {
+      "post": {
+        "tags": [
+          "tasks"
+        ],
+        "summary": "Set up a websocket connection for logs streaming.",
+        "operationId": "streamLogs",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "TaskID",
+            "name": "taskID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/emptyResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/v1/api/tasks/{taskID}/restart": {
+      "post": {
+        "tags": [
+          "tasks"
+        ],
+        "summary": "Restart a task.",
+        "operationId": "restartTask",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "TaskID",
+            "name": "taskID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "202": {
+            "$ref": "#/responses/emptyResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/version": {
+      "get": {
+        "tags": [
+          "version"
+        ],
+        "summary": "Get a version.",
+        "operationId": "version",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/versionResponse"
+          },
+          "default": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Addresses": {
+      "type": "object",
+      "title": "Addresses uses cidr to define an ip list.",
+      "properties": {
+        "cidr": {
+          "type": "string",
+          "x-go-name": "CIDR"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/profile"
+    },
+    "Any": {
+      "description": "Protobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\nFoo foo = ...;\nAny any;\nany.PackFrom(foo);\n...\nif (any.UnpackTo(\u0026foo)) {\n...\n}\n\nExample 2: Pack and unpack a message in Java.\n\nFoo foo = ...;\nAny any = Any.pack(foo);\n...\nif (any.is(Foo.class)) {\nfoo = any.unpack(Foo.class);\n}\n\nExample 3: Pack and unpack a message in Python.\n\nfoo = Foo(...)\nany = Any()\nany.Pack(foo)\n...\nif any.Is(Foo.DESCRIPTOR):\nany.Unpack(foo)\n...\n\nExample 4: Pack and unpack a message in Go\n\nfoo := \u0026pb.Foo{...}\nany, err := ptypes.MarshalAny(foo)\n...\nfoo := \u0026pb.Foo{}\nif err := ptypes.UnmarshalAny(any, foo); err != nil {\n...\n}\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\npackage google.profile;\nmessage Person {\nstring first_name = 1;\nstring last_name = 2;\n}\n\n{\n\"@type\": \"type.googleapis.com/google.profile.Person\",\n\"firstName\": \u003cstring\u003e,\n\"lastName\": \u003cstring\u003e\n}\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n{\n\"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n\"value\": \"1.212s\"\n}",
+      "type": "object",
+      "title": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.",
+      "properties": {
+        "type_url": {
+          "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\nIf no scheme is provided, `https` is assumed.\nAn HTTP GET on the URL must yield a [google.protobuf.Type][]\nvalue in binary format, or produce an error.\nApplications are allowed to cache lookup results based on the\nURL, or have them precompiled into a binary to avoid any\nlookup. Therefore, binary compatibility needs to be preserved\non changes to types. (Use versioned type names to manage\nbreaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics.",
+          "type": "string",
+          "x-go-name": "TypeUrl"
+        },
+        "value": {
+          "description": "Must be a valid serialized protocol buffer of the above specified type.",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "x-go-name": "Value"
+        }
+      },
+      "x-go-package": "github.com/golang/protobuf/ptypes/any"
+    },
+    "AttachedVolume": {
+      "description": "AttachedVolume describes a volume attached to a node",
+      "type": "object",
+      "properties": {
+        "devicePath": {
+          "description": "DevicePath represents the device path where the volume should be available",
+          "type": "string",
+          "x-go-name": "DevicePath"
+        },
+        "name": {
+          "$ref": "#/definitions/UniqueVolumeName"
+        }
+      },
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "Auth": {
+      "type": "object",
+      "title": "Auth holds all possible auth parameters.",
+      "properties": {
+        "adminCert": {
+          "type": "string",
+          "x-go-name": "AdminCert"
+        },
+        "adminKey": {
+          "type": "string",
+          "x-go-name": "AdminKey"
+        },
+        "caCert": {
+          "type": "string",
+          "x-go-name": "CACert"
+        },
+        "caCertHash": {
+          "type": "string",
+          "x-go-name": "CACertHash"
+        },
+        "caKey": {
+          "type": "string",
+          "x-go-name": "CAKey"
+        },
+        "certificateKey": {
+          "type": "string",
+          "x-go-name": "CertificateKey"
+        },
+        "parentCert": {
+          "type": "string",
+          "x-go-name": "ParentCert"
+        },
+        "staticAuth": {
+          "$ref": "#/definitions/StaticAuth"
+        },
+        "token": {
+          "description": "DEPRECATED: use static auth",
+          "type": "string",
+          "x-go-name": "Password"
+        },
+        "username": {
+          "description": "DEPRECATED: use static auth",
+          "type": "string",
+          "x-go-name": "Username"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/model"
+    },
+    "AuthRequest": {
+      "type": "object",
+      "properties": {
+        "login": {
+          "type": "string",
+          "x-go-name": "Login"
+        },
+        "password": {
+          "type": "string",
+          "x-go-name": "Password"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/user"
+    },
+    "BasicAuthUser": {
+      "description": "https://kubernetes.io/docs/reference/access-authn-authz/authentication/#static-password-file",
+      "type": "object",
+      "title": "BasicAuthUser represents an entry of the static password file.",
+      "properties": {
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Groups"
+        },
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "password": {
+          "type": "string",
+          "x-go-name": "Password"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/profile"
+    },
+    "Chart": {
+      "description": "Chart is a helm package that contains metadata, a default config, zero or more\noptionally parameterizable templates, and zero or more charts (dependencies).",
+      "type": "object",
+      "properties": {
+        "dependencies": {
+          "description": "Charts that this chart depends on.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Chart"
+          },
+          "x-go-name": "Dependencies"
+        },
+        "files": {
+          "description": "Miscellaneous files in a chart archive,\ne.g. README, LICENSE, etc.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Any"
+          },
+          "x-go-name": "Files"
+        },
+        "metadata": {
+          "$ref": "#/definitions/Metadata"
+        },
+        "templates": {
+          "description": "Templates for this chart.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Template"
+          },
+          "x-go-name": "Templates"
+        },
+        "values": {
+          "$ref": "#/definitions/Config"
+        }
+      },
+      "x-go-package": "k8s.io/helm/pkg/proto/hapi/chart"
+    },
+    "ChartData": {
+      "type": "object",
+      "title": "ChartData is a simplified representation of the helm chart.",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/Metadata"
+        },
+        "readme": {
+          "type": "string",
+          "x-go-name": "Readme"
+        },
+        "values": {
+          "type": "string",
+          "x-go-name": "Values"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/model"
+    },
+    "ChartInfo": {
+      "description": "ChartInfo contains a list of available chart versions and description/icon\ninfo for the latest one.",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "icon": {
+          "type": "string",
+          "x-go-name": "Icon"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "repo": {
+          "type": "string",
+          "x-go-name": "Repo"
+        },
+        "versions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChartVersion"
+          },
+          "x-go-name": "Versions"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/model"
+    },
+    "ChartVersion": {
+      "type": "object",
+      "properties": {
+        "appVersion": {
+          "type": "string",
+          "x-go-name": "AppVersion"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Created"
+        },
+        "digest": {
+          "type": "string",
+          "x-go-name": "Digest"
+        },
+        "urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "URLs"
+        },
+        "version": {
+          "type": "string",
+          "x-go-name": "Version"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/model"
+    },
+    "CloudAccount": {
+      "description": "CloudAccount is settings of account in public or private cloud (e.g. AWS, vCenter)\nName should be unique.",
+      "type": "object",
+      "properties": {
+        "credentials": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-go-name": "Credentials"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "provider": {
+          "$ref": "#/definitions/Name"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/model"
+    },
+    "CloudSpecificSettings": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/profile"
+    },
+    "ColdstartResponse": {
+      "type": "object",
+      "properties": {
+        "isColdStart": {
+          "type": "boolean",
+          "x-go-name": "IsColdStart"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/user"
+    },
+    "ConditionStatus": {
+      "type": "string",
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "Config": {
+      "type": "object",
+      "title": "Config supplies values to the parametrizable templates of a chart.",
+      "properties": {
+        "raw": {
+          "type": "string",
+          "x-go-name": "Raw"
+        },
+        "values": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Value"
+          },
+          "x-go-name": "Values"
+        }
+      },
+      "x-go-package": "k8s.io/helm/pkg/proto/hapi/chart"
+    },
+    "ConfigMapNodeConfigSource": {
+      "type": "object",
+      "title": "ConfigMapNodeConfigSource contains the information to reference a ConfigMap as a config source for the Node.",
+      "properties": {
+        "kubeletConfigKey": {
+          "description": "KubeletConfigKey declares which key of the referenced ConfigMap corresponds to the KubeletConfiguration structure\nThis field is required in all cases.",
+          "type": "string",
+          "x-go-name": "KubeletConfigKey"
+        },
+        "name": {
+          "description": "Name is the metadata.name of the referenced ConfigMap.\nThis field is required in all cases.",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "namespace": {
+          "description": "Namespace is the metadata.namespace of the referenced ConfigMap.\nThis field is required in all cases.",
+          "type": "string",
+          "x-go-name": "Namespace"
+        },
+        "resourceVersion": {
+          "description": "ResourceVersion is the metadata.ResourceVersion of the referenced ConfigMap.\nThis field is forbidden in Node.Spec, and required in Node.Status.\n+optional",
+          "type": "string",
+          "x-go-name": "ResourceVersion"
+        },
+        "uid": {
+          "$ref": "#/definitions/UID"
+        }
+      },
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "ContainerImage": {
+      "description": "Describe a container image",
+      "type": "object",
+      "properties": {
+        "names": {
+          "description": "Names by which this image is known.\ne.g. [\"k8s.gcr.io/hyperkube:v1.0.7\", \"dockerhub.io/google_containers/hyperkube:v1.0.7\"]",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Names"
+        },
+        "sizeBytes": {
+          "description": "The size of the image in bytes.\n+optional",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "SizeBytes"
+        }
+      },
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "DaemonEndpoint": {
+      "type": "object",
+      "title": "DaemonEndpoint contains information about a single Daemon endpoint.",
+      "properties": {
+        "Port": {
+          "description": "Port number of the given endpoint.",
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "Entry": {
+      "description": "Entry represents a collection of parameters for chart repository",
+      "type": "object",
+      "properties": {
+        "caFile": {
+          "type": "string",
+          "x-go-name": "CAFile"
+        },
+        "cache": {
+          "type": "string",
+          "x-go-name": "Cache"
+        },
+        "certFile": {
+          "type": "string",
+          "x-go-name": "CertFile"
+        },
+        "keyFile": {
+          "type": "string",
+          "x-go-name": "KeyFile"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "password": {
+          "type": "string",
+          "x-go-name": "Password"
+        },
+        "url": {
+          "type": "string",
+          "x-go-name": "URL"
+        },
+        "username": {
+          "type": "string",
+          "x-go-name": "Username"
+        }
+      },
+      "x-go-package": "k8s.io/helm/pkg/repo"
+    },
+    "ErrorCode": {
+      "type": "integer",
+      "format": "int64",
+      "x-go-package": "github.com/supergiant/control/pkg/sgerrors"
+    },
+    "Fields": {
+      "description": "To understand how this is used, see: https://github.com/kubernetes-sigs/structured-merge-diff",
+      "type": "object",
+      "title": "Fields stores a set of fields in a data structure like a Trie.",
+      "properties": {
+        "Map": {
+          "description": "Map stores a set of fields in a data structure like a Trie.\n\nEach key is either a '.' representing the field itself, and will always map to an empty set,\nor a string representing a sub-field or item. The string will follow one of these four formats:\n'f:\u003cname\u003e', where \u003cname\u003e is the name of a field in a struct, or key in a map\n'v:\u003cvalue\u003e', where \u003cvalue\u003e is the exact json formatted value of a list item\n'i:\u003cindex\u003e', where \u003cindex\u003e is position of a item in a list\n'k:\u003ckeys\u003e', where \u003ckeys\u003e is a map of  a list item's key fields to their unique values\nIf a key maps to an empty Fields value, the field that key represents is part of the set.\n\nThe exact format is defined in k8s.io/apiserver/pkg/endpoints/handlers/fieldmanager/internal",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Fields"
+          }
+        }
+      },
+      "x-go-package": "k8s.io/apimachinery/pkg/apis/meta/v1"
+    },
+    "Hook": {
+      "type": "object",
+      "title": "Hook defines a hook object.",
+      "properties": {
+        "delete_policies": {
+          "description": "DeletePolicies are the policies that indicate when to delete the hook",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Hook_DeletePolicy"
+          },
+          "x-go-name": "DeletePolicies"
+        },
+        "events": {
+          "description": "Events are the events that this hook fires on.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Hook_Event"
+          },
+          "x-go-name": "Events"
+        },
+        "kind": {
+          "description": "Kind is the Kubernetes kind.",
+          "type": "string",
+          "x-go-name": "Kind"
+        },
+        "last_run": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "manifest": {
+          "description": "Manifest is the manifest contents.",
+          "type": "string",
+          "x-go-name": "Manifest"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "path": {
+          "description": "Path is the chart-relative path to the template.",
+          "type": "string",
+          "x-go-name": "Path"
+        },
+        "weight": {
+          "description": "Weight indicates the sort order for execution among similar Hook type",
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "Weight"
+        }
+      },
+      "x-go-package": "k8s.io/helm/pkg/proto/hapi/release"
+    },
+    "Hook_DeletePolicy": {
+      "type": "integer",
+      "format": "int32",
+      "x-go-package": "k8s.io/helm/pkg/proto/hapi/release"
+    },
+    "Hook_Event": {
+      "type": "integer",
+      "format": "int32",
+      "x-go-package": "k8s.io/helm/pkg/proto/hapi/release"
+    },
+    "ImportRequest": {
+      "type": "object",
+      "properties": {
+        "cloudAccountName": {
+          "type": "string",
+          "x-go-name": "CloudAccountName"
+        },
+        "clusterName": {
+          "type": "string",
+          "x-go-name": "ClusterName"
+        },
+        "kubeconfig": {
+          "type": "string",
+          "x-go-name": "KubeConfig"
+        },
+        "privateKey": {
+          "type": "string",
+          "x-go-name": "PrivateKey"
+        },
+        "profile": {
+          "$ref": "#/definitions/Profile"
+        },
+        "publicKey": {
+          "type": "string",
+          "x-go-name": "PublicKey"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/kube"
+    },
+    "ImportResponse": {
+      "type": "object",
+      "properties": {
+        "clusterId": {
+          "type": "string",
+          "x-go-name": "ClusterID"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/kube"
+    },
+    "Info": {
+      "type": "object",
+      "title": "Info describes release information.",
+      "properties": {
+        "Description": {
+          "description": "Description is human-friendly \"log entry\" about this release.",
+          "type": "string"
+        },
+        "deleted": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "first_deployed": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "last_deployed": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "status": {
+          "$ref": "#/definitions/Status"
+        }
+      },
+      "x-go-package": "k8s.io/helm/pkg/proto/hapi/release"
+    },
+    "Initializer": {
+      "type": "object",
+      "title": "Initializer is information about an initializer that has not yet completed.",
+      "properties": {
+        "name": {
+          "description": "name of the process that is responsible for initializing this object.",
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "k8s.io/apimachinery/pkg/apis/meta/v1"
+    },
+    "Initializers": {
+      "type": "object",
+      "title": "Initializers tracks the progress of initialization.",
+      "properties": {
+        "pending": {
+          "description": "Pending is a list of initializers that must execute in order before this object is visible.\nWhen the last pending initializer is removed, and no failing result is set, the initializers\nstruct will be set to nil and the object is considered as initialized and visible to all\nclients.\n+patchMergeKey=name\n+patchStrategy=merge",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Initializer"
+          },
+          "x-go-name": "Pending"
+        },
+        "result": {
+          "$ref": "#/definitions/Status"
+        }
+      },
+      "x-go-package": "k8s.io/apimachinery/pkg/apis/meta/v1"
+    },
+    "InstallAppConfig": {
+      "type": "object",
+      "properties": {
+        "chartName": {
+          "type": "string",
+          "x-go-name": "ChartName"
+        },
+        "chartRef": {
+          "type": "string",
+          "x-go-name": "ChartRef"
+        },
+        "chartVersion": {
+          "type": "string",
+          "x-go-name": "ChartVersion"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "namespace": {
+          "type": "string",
+          "x-go-name": "Namespace"
+        },
+        "repoName": {
+          "type": "string",
+          "x-go-name": "RepoName"
+        },
+        "values": {
+          "type": "string",
+          "x-go-name": "Values"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/workflows/steps"
+    },
+    "InstallReleaseResp": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string",
+          "x-go-name": "TaskID"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/kube"
+    },
+    "Kube": {
+      "type": "object",
+      "title": "Kube represents a kubernetes cluster.",
+      "properties": {
+        "K8SVersion": {
+          "type": "string"
+        },
+        "accountName": {
+          "type": "string",
+          "x-go-name": "AccountName"
+        },
+        "addons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Addons"
+        },
+        "apiPort": {
+          "description": "DEPRECATED: use APIServerPort instead.",
+          "type": "string",
+          "x-go-name": "APIPort"
+        },
+        "apibindPort": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "APIServerPort"
+        },
+        "arch": {
+          "type": "string",
+          "x-go-name": "Arch"
+        },
+        "auth": {
+          "$ref": "#/definitions/Auth"
+        },
+        "bootstrapToken": {
+          "type": "string",
+          "x-go-name": "BootstrapToken"
+        },
+        "cloudSpec": {
+          "$ref": "#/definitions/CloudSpecificSettings"
+        },
+        "dnsIp": {
+          "type": "string",
+          "x-go-name": "DNSIP"
+        },
+        "dockerVersion": {
+          "type": "string",
+          "x-go-name": "DockerVersion"
+        },
+        "exposedAddresses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Addresses"
+          },
+          "x-go-name": "ExposedAddresses"
+        },
+        "externalDNSName": {
+          "type": "string",
+          "x-go-name": "ExternalDNSName"
+        },
+        "helmVersion": {
+          "type": "string",
+          "x-go-name": "HelmVersion"
+        },
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "internalDNSName": {
+          "type": "string",
+          "x-go-name": "InternalDNSName"
+        },
+        "masters": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Machine"
+          },
+          "x-go-name": "Masters"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "networking": {
+          "$ref": "#/definitions/Networking"
+        },
+        "nodes": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Machine"
+          },
+          "x-go-name": "Nodes"
+        },
+        "operatingSystem": {
+          "type": "string",
+          "x-go-name": "OperatingSystem"
+        },
+        "operatingSystemVersion": {
+          "type": "string",
+          "x-go-name": "OperatingSystemVersion"
+        },
+        "password": {
+          "type": "string",
+          "x-go-name": "Password"
+        },
+        "profileId": {
+          "type": "string",
+          "x-go-name": "ProfileID"
+        },
+        "provider": {
+          "$ref": "#/definitions/Name"
+        },
+        "rbacEnabled": {
+          "type": "boolean",
+          "x-go-name": "RBACEnabled"
+        },
+        "region": {
+          "type": "string",
+          "x-go-name": "Region"
+        },
+        "servicesCIDR": {
+          "type": "string",
+          "x-go-name": "ServicesCIDR"
+        },
+        "sshConfig": {
+          "$ref": "#/definitions/SSHConfig"
+        },
+        "state": {
+          "$ref": "#/definitions/KubeState"
+        },
+        "subnets": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-go-name": "Subnets"
+        },
+        "tasks": {
+          "description": "Store taskIds of tasks that are made to provision this kube",
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "x-go-name": "Tasks"
+        },
+        "user": {
+          "type": "string",
+          "x-go-name": "User"
+        },
+        "userData": {
+          "type": "string",
+          "x-go-name": "UserData"
+        },
+        "zone": {
+          "type": "string",
+          "x-go-name": "Zone"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/model"
+    },
+    "KubeState": {
+      "type": "string",
+      "x-go-package": "github.com/supergiant/control/pkg/model"
+    },
+    "Machine": {
+      "type": "object",
+      "properties": {
+        "az": {
+          "type": "string",
+          "x-go-name": "AvailabilityZone"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CreatedAt"
+        },
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "privateIp": {
+          "type": "string",
+          "x-go-name": "PrivateIp"
+        },
+        "provider": {
+          "$ref": "#/definitions/Name"
+        },
+        "publicIp": {
+          "type": "string",
+          "x-go-name": "PublicIp"
+        },
+        "region": {
+          "type": "string",
+          "x-go-name": "Region"
+        },
+        "role": {
+          "$ref": "#/definitions/Role"
+        },
+        "selfLink": {
+          "type": "string",
+          "x-go-name": "SelfLink"
+        },
+        "size": {
+          "type": "string",
+          "x-go-name": "Size"
+        },
+        "state": {
+          "$ref": "#/definitions/MachineState"
+        },
+        "taskId": {
+          "type": "string",
+          "x-go-name": "TaskID"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/model"
+    },
+    "MachineState": {
+      "type": "string",
+      "x-go-package": "github.com/supergiant/control/pkg/model"
+    },
+    "Maintainer": {
+      "type": "object",
+      "title": "Maintainer describes a Chart maintainer.",
+      "properties": {
+        "email": {
+          "description": "Email is an optional email address to contact the named maintainer",
+          "type": "string",
+          "x-go-name": "Email"
+        },
+        "name": {
+          "description": "Name is a user name or organization name",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "url": {
+          "description": "Url is an optional URL to an address for the named maintainer",
+          "type": "string",
+          "x-go-name": "Url"
+        }
+      },
+      "x-go-package": "k8s.io/helm/pkg/proto/hapi/chart"
+    },
+    "ManagedFieldsEntry": {
+      "description": "ManagedFieldsEntry is a workflow-id, a FieldSet and the group version of the resource\nthat the fieldset applies to.",
+      "type": "object",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the version of this resource that this field set\napplies to. The format is \"group/version\" just like the top-level\nAPIVersion field. It is necessary to track the version of a field\nset because it cannot be automatically converted.",
+          "type": "string",
+          "x-go-name": "APIVersion"
+        },
+        "fields": {
+          "$ref": "#/definitions/Fields"
+        },
+        "manager": {
+          "description": "Manager is an identifier of the workflow managing these fields.",
+          "type": "string",
+          "x-go-name": "Manager"
+        },
+        "operation": {
+          "$ref": "#/definitions/ManagedFieldsOperationType"
+        },
+        "time": {
+          "$ref": "#/definitions/Time"
+        }
+      },
+      "x-go-package": "k8s.io/apimachinery/pkg/apis/meta/v1"
+    },
+    "ManagedFieldsOperationType": {
+      "type": "string",
+      "title": "ManagedFieldsOperationType is the type of operation which lead to a ManagedFieldsEntry being created.",
+      "x-go-package": "k8s.io/apimachinery/pkg/apis/meta/v1"
+    },
+    "Message": {
+      "description": "Message is used in response body to display separate messages to user and developers",
+      "type": "object",
+      "properties": {
+        "devMessage": {
+          "description": "DevMessage should be used to display message to developer on API/console",
+          "type": "string",
+          "x-go-name": "DevMessage"
+        },
+        "errorCode": {
+          "$ref": "#/definitions/ErrorCode"
+        },
+        "moreInfo": {
+          "description": "MoreInfo should be a link to supergiant documentation to display common problems",
+          "type": "string",
+          "x-go-name": "MoreInfo"
+        },
+        "userMessage": {
+          "description": "UserMessage should be used to display message to user on UI/CLI",
+          "type": "string",
+          "x-go-name": "UserMessage"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/message"
+    },
+    "Metadata": {
+      "description": "Spec: https://k8s.io/helm/blob/master/docs/design/chart_format.md#the-chart-file",
+      "type": "object",
+      "title": "Metadata for a Chart file. This models the structure of a Chart.yaml file.",
+      "properties": {
+        "annotations": {
+          "description": "Annotations are additional mappings uninterpreted by Tiller,\nmade available for inspection by other applications.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-go-name": "Annotations"
+        },
+        "apiVersion": {
+          "description": "The API Version of this chart.",
+          "type": "string",
+          "x-go-name": "ApiVersion"
+        },
+        "appVersion": {
+          "description": "The version of the application enclosed inside of this chart.",
+          "type": "string",
+          "x-go-name": "AppVersion"
+        },
+        "condition": {
+          "description": "The condition to check to enable chart",
+          "type": "string",
+          "x-go-name": "Condition"
+        },
+        "deprecated": {
+          "description": "Whether or not this chart is deprecated",
+          "type": "boolean",
+          "x-go-name": "Deprecated"
+        },
+        "description": {
+          "description": "A one-sentence description of the chart",
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "engine": {
+          "description": "The name of the template engine to use. Defaults to 'gotpl'.",
+          "type": "string",
+          "x-go-name": "Engine"
+        },
+        "home": {
+          "description": "The URL to a relevant project page, git repo, or contact person",
+          "type": "string",
+          "x-go-name": "Home"
+        },
+        "icon": {
+          "description": "The URL to an icon file.",
+          "type": "string",
+          "x-go-name": "Icon"
+        },
+        "keywords": {
+          "description": "A list of string keywords",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Keywords"
+        },
+        "kubeVersion": {
+          "description": "KubeVersion is a SemVer constraint specifying the version of Kubernetes required.",
+          "type": "string",
+          "x-go-name": "KubeVersion"
+        },
+        "maintainers": {
+          "description": "A list of name and URL/email address combinations for the maintainer(s)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Maintainer"
+          },
+          "x-go-name": "Maintainers"
+        },
+        "name": {
+          "description": "The name of the chart",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "sources": {
+          "description": "Source is the URL to the source code of this chart",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Sources"
+        },
+        "tags": {
+          "description": "The tags to check to enable chart",
+          "type": "string",
+          "x-go-name": "Tags"
+        },
+        "tillerVersion": {
+          "description": "TillerVersion is a SemVer constraints on what version of Tiller is required.\nSee SemVer ranges here: https://github.com/Masterminds/semver#basic-comparisons",
+          "type": "string",
+          "x-go-name": "TillerVersion"
+        },
+        "version": {
+          "description": "A SemVer 2 conformant version string of the chart",
+          "type": "string",
+          "x-go-name": "Version"
+        }
+      },
+      "x-go-package": "k8s.io/helm/pkg/proto/hapi/chart"
+    },
+    "Name": {
+      "type": "string",
+      "x-go-package": "github.com/supergiant/control/pkg/clouds"
+    },
+    "Networking": {
+      "type": "object",
+      "properties": {
+        "cidr": {
+          "type": "string",
+          "x-go-name": "CIDR"
+        },
+        "manager": {
+          "description": "DEPRECATED: use Provider field instead",
+          "type": "string",
+          "x-go-name": "Manager"
+        },
+        "provider": {
+          "type": "string",
+          "x-go-name": "Provider"
+        },
+        "type": {
+          "type": "string",
+          "x-go-name": "Type"
+        },
+        "version": {
+          "type": "string",
+          "x-go-name": "Version"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/model"
+    },
+    "Node": {
+      "description": "Each node will have a unique identifier in the cache (i.e. in etcd).",
+      "type": "object",
+      "title": "Node is a worker node in Kubernetes.",
+      "properties": {
+        "annotations": {
+          "description": "Annotations is an unstructured key value map stored with a resource that may be\nset by external tools to store and retrieve arbitrary metadata. They are not\nqueryable and should be preserved when modifying objects.\nMore info: http://kubernetes.io/docs/user-guide/annotations\n+optional",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-go-name": "Annotations"
+        },
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object.\nServers should convert recognized schemas to the latest internal value, and\nmay reject unrecognized values.\nMore info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources\n+optional",
+          "type": "string",
+          "x-go-name": "APIVersion"
+        },
+        "clusterName": {
+          "description": "The name of the cluster which the object belongs to.\nThis is used to distinguish resources with same name and namespace in different clusters.\nThis field is not set anywhere right now and apiserver is going to ignore it if set in create or update request.\n+optional",
+          "type": "string",
+          "x-go-name": "ClusterName"
+        },
+        "creationTimestamp": {
+          "$ref": "#/definitions/Time"
+        },
+        "deletionGracePeriodSeconds": {
+          "description": "Number of seconds allowed for this object to gracefully terminate before\nit will be removed from the system. Only set when deletionTimestamp is also set.\nMay only be shortened.\nRead-only.\n+optional",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DeletionGracePeriodSeconds"
+        },
+        "deletionTimestamp": {
+          "$ref": "#/definitions/Time"
+        },
+        "finalizers": {
+          "description": "Must be empty before the object is deleted from the registry. Each entry\nis an identifier for the responsible component that will remove the entry\nfrom the list. If the deletionTimestamp of the object is non-nil, entries\nin this list can only be removed.\n+optional\n+patchStrategy=merge",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Finalizers"
+        },
+        "generateName": {
+          "description": "GenerateName is an optional prefix, used by the server, to generate a unique\nname ONLY IF the Name field has not been provided.\nIf this field is used, the name returned to the client will be different\nthan the name passed. This value will also be combined with a unique suffix.\nThe provided value has the same validation rules as the Name field,\nand may be truncated by the length of the suffix required to make the value\nunique on the server.\n\nIf this field is specified and the generated name exists, the server will\nNOT return a 409 - instead, it will either return 201 Created or 500 with Reason\nServerTimeout indicating a unique name could not be found in the time allotted, and the client\nshould retry (optionally after the time indicated in the Retry-After header).\n\nApplied only if Name is not specified.\nMore info: https://git.k8s.io/community/contributors/devel/api-conventions.md#idempotency\n+optional",
+          "type": "string",
+          "x-go-name": "GenerateName"
+        },
+        "generation": {
+          "description": "A sequence number representing a specific generation of the desired state.\nPopulated by the system. Read-only.\n+optional",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Generation"
+        },
+        "initializers": {
+          "$ref": "#/definitions/Initializers"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents.\nServers may infer this from the endpoint the client submits requests to.\nCannot be updated.\nIn CamelCase.\nMore info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds\n+optional",
+          "type": "string",
+          "x-go-name": "Kind"
+        },
+        "labels": {
+          "description": "Map of string keys and values that can be used to organize and categorize\n(scope and select) objects. May match selectors of replication controllers\nand services.\nMore info: http://kubernetes.io/docs/user-guide/labels\n+optional",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-go-name": "Labels"
+        },
+        "managedFields": {
+          "description": "ManagedFields maps workflow-id and version to the set of fields\nthat are managed by that workflow. This is mostly for internal\nhousekeeping, and users typically shouldn't need to set or\nunderstand this field. A workflow can be the user's name, a\ncontroller's name, or the name of a specific apply path like\n\"ci-cd\". The set of fields is always in the version that the\nworkflow used when modifying the object.\n\nThis field is alpha and can be changed or removed without notice.\n\n+optional",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ManagedFieldsEntry"
+          },
+          "x-go-name": "ManagedFields"
+        },
+        "name": {
+          "description": "Name must be unique within a namespace. Is required when creating resources, although\nsome resources may allow a client to request the generation of an appropriate name\nautomatically. Name is primarily intended for creation idempotence and configuration\ndefinition.\nCannot be updated.\nMore info: http://kubernetes.io/docs/user-guide/identifiers#names\n+optional",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "namespace": {
+          "description": "Namespace defines the space within each name must be unique. An empty namespace is\nequivalent to the \"default\" namespace, but \"default\" is the canonical representation.\nNot all objects are required to be scoped to a namespace - the value of this field for\nthose objects will be empty.\n\nMust be a DNS_LABEL.\nCannot be updated.\nMore info: http://kubernetes.io/docs/user-guide/namespaces\n+optional",
+          "type": "string",
+          "x-go-name": "Namespace"
+        },
+        "ownerReferences": {
+          "description": "List of objects depended by this object. If ALL objects in the list have\nbeen deleted, this object will be garbage collected. If this object is managed by a controller,\nthen an entry in this list will point to this controller, with the controller field set to true.\nThere cannot be more than one managing controller.\n+optional\n+patchMergeKey=uid\n+patchStrategy=merge",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OwnerReference"
+          },
+          "x-go-name": "OwnerReferences"
+        },
+        "resourceVersion": {
+          "description": "An opaque value that represents the internal version of this object that can\nbe used by clients to determine when objects have changed. May be used for optimistic\nconcurrency, change detection, and the watch operation on a resource or set of resources.\nClients must treat these values as opaque and passed unmodified back to the server.\nThey may only be valid for a particular resource or set of resources.\n\nPopulated by the system.\nRead-only.\nValue must be treated as opaque by clients and .\nMore info: https://git.k8s.io/community/contributors/devel/api-conventions.md#concurrency-control-and-consistency\n+optional",
+          "type": "string",
+          "x-go-name": "ResourceVersion"
+        },
+        "selfLink": {
+          "description": "SelfLink is a URL representing this object.\nPopulated by the system.\nRead-only.\n+optional",
+          "type": "string",
+          "x-go-name": "SelfLink"
+        },
+        "spec": {
+          "$ref": "#/definitions/NodeSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/NodeStatus"
+        },
+        "uid": {
+          "$ref": "#/definitions/UID"
+        }
+      },
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "NodeAddress": {
+      "type": "object",
+      "title": "NodeAddress contains information for the node's address.",
+      "properties": {
+        "address": {
+          "description": "The node address.",
+          "type": "string",
+          "x-go-name": "Address"
+        },
+        "type": {
+          "$ref": "#/definitions/NodeAddressType"
+        }
+      },
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "NodeAddressType": {
+      "type": "string",
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "NodeCondition": {
+      "type": "object",
+      "title": "NodeCondition contains condition information for a node.",
+      "properties": {
+        "lastHeartbeatTime": {
+          "$ref": "#/definitions/Time"
+        },
+        "lastTransitionTime": {
+          "$ref": "#/definitions/Time"
+        },
+        "message": {
+          "description": "Human readable message indicating details about last transition.\n+optional",
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "reason": {
+          "description": "(brief) reason for the condition's last transition.\n+optional",
+          "type": "string",
+          "x-go-name": "Reason"
+        },
+        "status": {
+          "$ref": "#/definitions/ConditionStatus"
+        },
+        "type": {
+          "$ref": "#/definitions/NodeConditionType"
+        }
+      },
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "NodeConditionType": {
+      "type": "string",
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "NodeConfigSource": {
+      "type": "object",
+      "title": "NodeConfigSource specifies a source of node configuration. Exactly one subfield (excluding metadata) must be non-nil.",
+      "properties": {
+        "configMap": {
+          "$ref": "#/definitions/ConfigMapNodeConfigSource"
+        }
+      },
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "NodeConfigStatus": {
+      "type": "object",
+      "title": "NodeConfigStatus describes the status of the config assigned by Node.Spec.ConfigSource.",
+      "properties": {
+        "active": {
+          "$ref": "#/definitions/NodeConfigSource"
+        },
+        "assigned": {
+          "$ref": "#/definitions/NodeConfigSource"
+        },
+        "error": {
+          "description": "Error describes any problems reconciling the Spec.ConfigSource to the Active config.\nErrors may occur, for example, attempting to checkpoint Spec.ConfigSource to the local Assigned\nrecord, attempting to checkpoint the payload associated with Spec.ConfigSource, attempting\nto load or validate the Assigned config, etc.\nErrors may occur at different points while syncing config. Earlier errors (e.g. download or\ncheckpointing errors) will not result in a rollback to LastKnownGood, and may resolve across\nKubelet retries. Later errors (e.g. loading or validating a checkpointed config) will result in\na rollback to LastKnownGood. In the latter case, it is usually possible to resolve the error\nby fixing the config assigned in Spec.ConfigSource.\nYou can find additional information for debugging by searching the error message in the Kubelet log.\nError is a human-readable description of the error state; machines can check whether or not Error\nis empty, but should not rely on the stability of the Error text across Kubelet versions.\n+optional",
+          "type": "string",
+          "x-go-name": "Error"
+        },
+        "lastKnownGood": {
+          "$ref": "#/definitions/NodeConfigSource"
+        }
+      },
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "NodeDaemonEndpoints": {
+      "type": "object",
+      "title": "NodeDaemonEndpoints lists ports opened by daemons running on the Node.",
+      "properties": {
+        "kubeletEndpoint": {
+          "$ref": "#/definitions/DaemonEndpoint"
+        }
+      },
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "NodePhase": {
+      "type": "string",
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "NodeProfile": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/profile"
+    },
+    "NodeSpec": {
+      "type": "object",
+      "title": "NodeSpec describes the attributes that a node is created with.",
+      "properties": {
+        "configSource": {
+          "$ref": "#/definitions/NodeConfigSource"
+        },
+        "externalID": {
+          "description": "Deprecated. Not all kubelets will set this field. Remove field after 1.13.\nsee: https://issues.k8s.io/61966\n+optional",
+          "type": "string",
+          "x-go-name": "DoNotUse_ExternalID"
+        },
+        "podCIDR": {
+          "description": "PodCIDR represents the pod IP range assigned to the node.\n+optional",
+          "type": "string",
+          "x-go-name": "PodCIDR"
+        },
+        "providerID": {
+          "description": "ID of the node assigned by the cloud provider in the format: \u003cProviderName\u003e://\u003cProviderSpecificNodeID\u003e\n+optional",
+          "type": "string",
+          "x-go-name": "ProviderID"
+        },
+        "taints": {
+          "description": "If specified, the node's taints.\n+optional",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Taint"
+          },
+          "x-go-name": "Taints"
+        },
+        "unschedulable": {
+          "description": "Unschedulable controls node schedulability of new pods. By default, node is schedulable.\nMore info: https://kubernetes.io/docs/concepts/nodes/node/#manual-node-administration\n+optional",
+          "type": "boolean",
+          "x-go-name": "Unschedulable"
+        }
+      },
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "NodeStatus": {
+      "type": "object",
+      "title": "NodeStatus is information about the current status of a node.",
+      "properties": {
+        "addresses": {
+          "description": "List of addresses reachable to the node.\nQueried from cloud provider, if available.\nMore info: https://kubernetes.io/docs/concepts/nodes/node/#addresses\n+optional\n+patchMergeKey=type\n+patchStrategy=merge",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NodeAddress"
+          },
+          "x-go-name": "Addresses"
+        },
+        "allocatable": {
+          "$ref": "#/definitions/ResourceList"
+        },
+        "capacity": {
+          "$ref": "#/definitions/ResourceList"
+        },
+        "conditions": {
+          "description": "Conditions is an array of current observed node conditions.\nMore info: https://kubernetes.io/docs/concepts/nodes/node/#condition\n+optional\n+patchMergeKey=type\n+patchStrategy=merge",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NodeCondition"
+          },
+          "x-go-name": "Conditions"
+        },
+        "config": {
+          "$ref": "#/definitions/NodeConfigStatus"
+        },
+        "daemonEndpoints": {
+          "$ref": "#/definitions/NodeDaemonEndpoints"
+        },
+        "images": {
+          "description": "List of container images on this node\n+optional",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ContainerImage"
+          },
+          "x-go-name": "Images"
+        },
+        "nodeInfo": {
+          "$ref": "#/definitions/NodeSystemInfo"
+        },
+        "phase": {
+          "$ref": "#/definitions/NodePhase"
+        },
+        "volumesAttached": {
+          "description": "List of volumes that are attached to the node.\n+optional",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AttachedVolume"
+          },
+          "x-go-name": "VolumesAttached"
+        },
+        "volumesInUse": {
+          "description": "List of attachable volumes in use (mounted) by the node.\n+optional",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UniqueVolumeName"
+          },
+          "x-go-name": "VolumesInUse"
+        }
+      },
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "NodeSystemInfo": {
+      "type": "object",
+      "title": "NodeSystemInfo is a set of ids/uuids to uniquely identify the node.",
+      "properties": {
+        "architecture": {
+          "description": "The Architecture reported by the node",
+          "type": "string",
+          "x-go-name": "Architecture"
+        },
+        "bootID": {
+          "description": "Boot ID reported by the node.",
+          "type": "string",
+          "x-go-name": "BootID"
+        },
+        "containerRuntimeVersion": {
+          "description": "ContainerRuntime Version reported by the node through runtime remote API (e.g. docker://1.5.0).",
+          "type": "string",
+          "x-go-name": "ContainerRuntimeVersion"
+        },
+        "kernelVersion": {
+          "description": "Kernel Version reported by the node from 'uname -r' (e.g. 3.16.0-0.bpo.4-amd64).",
+          "type": "string",
+          "x-go-name": "KernelVersion"
+        },
+        "kubeProxyVersion": {
+          "description": "KubeProxy Version reported by the node.",
+          "type": "string",
+          "x-go-name": "KubeProxyVersion"
+        },
+        "kubeletVersion": {
+          "description": "Kubelet Version reported by the node.",
+          "type": "string",
+          "x-go-name": "KubeletVersion"
+        },
+        "machineID": {
+          "description": "MachineID reported by the node. For unique machine identification\nin the cluster this field is preferred. Learn more from man(5)\nmachine-id: http://man7.org/linux/man-pages/man5/machine-id.5.html",
+          "type": "string",
+          "x-go-name": "MachineID"
+        },
+        "operatingSystem": {
+          "description": "The Operating System reported by the node",
+          "type": "string",
+          "x-go-name": "OperatingSystem"
+        },
+        "osImage": {
+          "description": "OS Image reported by the node from /etc/os-release (e.g. Debian GNU/Linux 7 (wheezy)).",
+          "type": "string",
+          "x-go-name": "OSImage"
+        },
+        "systemUUID": {
+          "description": "SystemUUID reported by the node. For unique machine identification\nMachineID is preferred. This field is specific to Red Hat hosts\nhttps://access.redhat.com/documentation/en-US/Red_Hat_Subscription_Management/1/html/RHSM/getting-system-uuid.html",
+          "type": "string",
+          "x-go-name": "SystemUUID"
+        }
+      },
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "OwnerReference": {
+      "description": "OwnerReference contains enough information to let you identify an owning\nobject. An owning object must be in the same namespace as the dependent, or\nbe cluster-scoped, so there is no namespace field.",
+      "type": "object",
+      "properties": {
+        "apiVersion": {
+          "description": "API version of the referent.",
+          "type": "string",
+          "x-go-name": "APIVersion"
+        },
+        "blockOwnerDeletion": {
+          "description": "If true, AND if the owner has the \"foregroundDeletion\" finalizer, then\nthe owner cannot be deleted from the key-value store until this\nreference is removed.\nDefaults to false.\nTo set this field, a user needs \"delete\" permission of the owner,\notherwise 422 (Unprocessable Entity) will be returned.\n+optional",
+          "type": "boolean",
+          "x-go-name": "BlockOwnerDeletion"
+        },
+        "controller": {
+          "description": "If true, this reference points to the managing controller.\n+optional",
+          "type": "boolean",
+          "x-go-name": "Controller"
+        },
+        "kind": {
+          "description": "Kind of the referent.\nMore info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds",
+          "type": "string",
+          "x-go-name": "Kind"
+        },
+        "name": {
+          "description": "Name of the referent.\nMore info: http://kubernetes.io/docs/user-guide/identifiers#names",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "uid": {
+          "$ref": "#/definitions/UID"
+        }
+      },
+      "x-go-package": "k8s.io/apimachinery/pkg/apis/meta/v1"
+    },
+    "Profile": {
+      "type": "object",
+      "properties": {
+        "K8SVersion": {
+          "type": "string"
+        },
+        "addons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Addons"
+        },
+        "arch": {
+          "type": "string",
+          "x-go-name": "Arch"
+        },
+        "cidr": {
+          "type": "string",
+          "x-go-name": "CIDR"
+        },
+        "cloudSpecificSettings": {
+          "$ref": "#/definitions/CloudSpecificSettings"
+        },
+        "dockerVersion": {
+          "type": "string",
+          "x-go-name": "DockerVersion"
+        },
+        "exposedAddresses": {
+          "description": "ExposedAddresses is a list of cidr/port pairs that will be exposes\nby cloud provider security groups.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Addresses"
+          },
+          "x-go-name": "ExposedAddresses"
+        },
+        "flannelVersion": {
+          "type": "string",
+          "x-go-name": "FlannelVersion"
+        },
+        "helmVersion": {
+          "type": "string",
+          "x-go-name": "HelmVersion"
+        },
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "k8sApiPort": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "K8SAPIPort"
+        },
+        "k8sServicesCIDR": {
+          "type": "string",
+          "x-go-name": "K8SServicesCIDR"
+        },
+        "masterProfiles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NodeProfile"
+          },
+          "x-go-name": "MasterProfiles"
+        },
+        "networkProvider": {
+          "type": "string",
+          "x-go-name": "NetworkProvider"
+        },
+        "networkType": {
+          "type": "string",
+          "x-go-name": "NetworkType"
+        },
+        "nodesProfiles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NodeProfile"
+          },
+          "x-go-name": "NodesProfiles"
+        },
+        "operatingSystem": {
+          "type": "string",
+          "x-go-name": "OperatingSystem"
+        },
+        "password": {
+          "description": "DEPRECATED: should be a part of the static auth",
+          "type": "string",
+          "x-go-name": "Password"
+        },
+        "provider": {
+          "$ref": "#/definitions/Name"
+        },
+        "publicKey": {
+          "type": "string",
+          "x-go-name": "PublicKey"
+        },
+        "rbacEnabled": {
+          "type": "boolean",
+          "x-go-name": "RBACEnabled"
+        },
+        "region": {
+          "type": "string",
+          "x-go-name": "Region"
+        },
+        "staticAuth": {
+          "$ref": "#/definitions/StaticAuth"
+        },
+        "subnets": {
+          "description": "This field is AWS specific, mapping AZ -\u003e subnet",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-go-name": "Subnets"
+        },
+        "ubuntuVersion": {
+          "type": "string",
+          "x-go-name": "UbuntuVersion"
+        },
+        "user": {
+          "description": "TODO: get rid of its usage\nDEPRECATED: should be a part of the static auth",
+          "type": "string",
+          "x-go-name": "User"
+        },
+        "zone": {
+          "type": "string",
+          "x-go-name": "Zone"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/profile"
+    },
+    "ProvisionRequest": {
+      "type": "object",
+      "properties": {
+        "cloudAccountName": {
+          "type": "string",
+          "x-go-name": "CloudAccountName"
+        },
+        "clusterName": {
+          "type": "string",
+          "x-go-name": "ClusterName"
+        },
+        "profile": {
+          "$ref": "#/definitions/Profile"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/provisioner"
+    },
+    "ProvisionResponse": {
+      "type": "object",
+      "properties": {
+        "clusterId": {
+          "type": "string",
+          "x-go-name": "ClusterID"
+        },
+        "tasks": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "x-go-name": "Tasks"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/provisioner"
+    },
+    "Quantity": {
+      "description": "The serialization format is:\n\n\u003cquantity\u003e        ::= \u003csignedNumber\u003e\u003csuffix\u003e\n(Note that \u003csuffix\u003e may be empty, from the \"\" case in \u003cdecimalSI\u003e.)\n\u003cdigit\u003e           ::= 0 | 1 | ... | 9\n\u003cdigits\u003e          ::= \u003cdigit\u003e | \u003cdigit\u003e\u003cdigits\u003e\n\u003cnumber\u003e          ::= \u003cdigits\u003e | \u003cdigits\u003e.\u003cdigits\u003e | \u003cdigits\u003e. | .\u003cdigits\u003e\n\u003csign\u003e            ::= \"+\" | \"-\"\n\u003csignedNumber\u003e    ::= \u003cnumber\u003e | \u003csign\u003e\u003cnumber\u003e\n\u003csuffix\u003e          ::= \u003cbinarySI\u003e | \u003cdecimalExponent\u003e | \u003cdecimalSI\u003e\n\u003cbinarySI\u003e        ::= Ki | Mi | Gi | Ti | Pi | Ei\n(International System of units; See: http://physics.nist.gov/cuu/Units/binary.html)\n\u003cdecimalSI\u003e       ::= m | \"\" | k | M | G | T | P | E\n(Note that 1024 = 1Ki but 1000 = 1k; I didn't choose the capitalization.)\n\u003cdecimalExponent\u003e ::= \"e\" \u003csignedNumber\u003e | \"E\" \u003csignedNumber\u003e\n\nNo matter which of the three exponent forms is used, no quantity may represent\na number greater than 2^63-1 in magnitude, nor may it have more than 3 decimal\nplaces. Numbers larger or more precise will be capped or rounded up.\n(E.g.: 0.1m will rounded up to 1m.)\nThis may be extended in the future if we require larger or smaller quantities.\n\nWhen a Quantity is parsed from a string, it will remember the type of suffix\nit had, and will use the same type again when it is serialized.\n\nBefore serializing, Quantity will be put in \"canonical form\".\nThis means that Exponent/suffix will be adjusted up or down (with a\ncorresponding increase or decrease in Mantissa) such that:\na. No precision is lost\nb. No fractional digits will be emitted\nc. The exponent (or suffix) is as large as possible.\nThe sign will be omitted unless the number is negative.\n\nExamples:\n1.5 will be serialized as \"1500m\"\n1.5Gi will be serialized as \"1536Mi\"\n\nNote that the quantity will NEVER be internally represented by a\nfloating point number. That is the whole point of this exercise.\n\nNon-canonical values will still parse as long as they are well formed,\nbut will be re-emitted in their canonical form. (So always use canonical\nform, or don't diff.)\n\nThis format is intended to make it difficult to use these numbers without\nwriting some sort of special handling code in the hopes that that will\ncause implementors to also use a fixed point implementation.\n\n+protobuf=true\n+protobuf.embed=string\n+protobuf.options.marshal=false\n+protobuf.options.(gogoproto.goproto_stringer)=false\n+k8s:deepcopy-gen=true\n+k8s:openapi-gen=true",
+      "type": "object",
+      "title": "Quantity is a fixed-point representation of a number.\nIt provides convenient marshaling/unmarshaling in JSON and YAML,\nin addition to String() and Int64() accessors.",
+      "x-go-package": "k8s.io/apimachinery/pkg/api/resource"
+    },
+    "Region": {
+      "description": "Region represents",
+      "type": "object",
+      "properties": {
+        "AvailableSizes": {
+          "description": "API specific IDs for a node sizes/type",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "id": {
+          "description": "API specific ID, e.g. t2.micro",
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "description": "Human readable name, e.g. New York City 1 or EU West 1 Frankfurt",
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/account"
+    },
+    "RegionSizes": {
+      "description": "RegionSizes represents aggregated information about available regions/azs and node sizes/types",
+      "type": "object",
+      "properties": {
+        "provider": {
+          "$ref": "#/definitions/Name"
+        },
+        "regions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Region"
+          },
+          "x-go-name": "Regions"
+        },
+        "sizes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          },
+          "x-go-name": "Sizes"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/account"
+    },
+    "Release": {
+      "description": "Release describes a deployment of a chart, together with the chart\nand the variables used to deploy that chart.",
+      "type": "object",
+      "properties": {
+        "chart": {
+          "$ref": "#/definitions/Chart"
+        },
+        "config": {
+          "$ref": "#/definitions/Config"
+        },
+        "hooks": {
+          "description": "Hooks are all of the hooks declared for this release.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Hook"
+          },
+          "x-go-name": "Hooks"
+        },
+        "info": {
+          "$ref": "#/definitions/Info"
+        },
+        "manifest": {
+          "description": "Manifest is the string representation of the rendered template.",
+          "type": "string",
+          "x-go-name": "Manifest"
+        },
+        "name": {
+          "description": "Name is the name of the release",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "namespace": {
+          "description": "Namespace is the kubernetes namespace of the release.",
+          "type": "string",
+          "x-go-name": "Namespace"
+        },
+        "version": {
+          "description": "Version is an int32 which represents the version of the release.",
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "Version"
+        }
+      },
+      "x-go-package": "k8s.io/helm/pkg/proto/hapi/release"
+    },
+    "ReleaseInfo": {
+      "type": "object",
+      "title": "ReleaseInfo is a simplified representations of the helm release.",
+      "properties": {
+        "chart": {
+          "type": "string",
+          "x-go-name": "Chart"
+        },
+        "chartVersion": {
+          "type": "string",
+          "x-go-name": "ChartVersion"
+        },
+        "createdAt": {
+          "type": "string",
+          "x-go-name": "CreatedAt"
+        },
+        "lastDeployed": {
+          "type": "string",
+          "x-go-name": "LastDeployed"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "namespace": {
+          "type": "string",
+          "x-go-name": "Namespace"
+        },
+        "status": {
+          "type": "string",
+          "x-go-name": "Status"
+        },
+        "version": {
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "Version"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/model"
+    },
+    "ResourceList": {
+      "type": "object",
+      "title": "ResourceList is a set of (resource name, quantity) pairs.",
+      "additionalProperties": {
+        "$ref": "#/definitions/Quantity"
+      },
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "Role": {
+      "type": "string",
+      "x-go-package": "github.com/supergiant/control/pkg/model"
+    },
+    "SSHConfig": {
+      "type": "object",
+      "properties": {
+        "bootstrapPrivateKey": {
+          "type": "string",
+          "x-go-name": "BootstrapPrivateKey"
+        },
+        "bootstrapPublicKey": {
+          "type": "string",
+          "x-go-name": "BootstrapPublicKey"
+        },
+        "port": {
+          "type": "string",
+          "x-go-name": "Port"
+        },
+        "publicKey": {
+          "type": "string",
+          "x-go-name": "PublicKey"
+        },
+        "timeout": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Timeout"
+        },
+        "user": {
+          "type": "string",
+          "x-go-name": "User"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/model"
+    },
+    "ServiceInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "namespace": {
+          "type": "string",
+          "x-go-name": "Namespace"
+        },
+        "proxyPort": {
+          "type": "string",
+          "x-go-name": "ProxyPort"
+        },
+        "type": {
+          "type": "string",
+          "x-go-name": "Type"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/kube"
+    },
+    "StaticAuth": {
+      "type": "object",
+      "title": "StaticAuth represents tokens and basic authentication credentials.",
+      "properties": {
+        "basicAuth": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BasicAuthUser"
+          },
+          "x-go-name": "BasicAuth"
+        },
+        "tokens": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TokenAuthUser"
+          },
+          "x-go-name": "Tokens"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/profile"
+    },
+    "Status": {
+      "type": "string",
+      "x-go-package": "github.com/supergiant/control/pkg/workflows/statuses"
+    },
+    "StepStatus": {
+      "description": "StepStatus aggregates data that is needed to track progress\nof step to persistent storage.",
+      "type": "object",
+      "properties": {
+        "errorMessage": {
+          "type": "string",
+          "x-go-name": "ErrMsg"
+        },
+        "status": {
+          "$ref": "#/definitions/Status"
+        },
+        "stepName": {
+          "type": "string",
+          "x-go-name": "StepName"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/workflows"
+    },
+    "Taint": {
+      "description": "The node this Taint is attached to has the \"effect\" on\nany pod that does not tolerate the Taint.",
+      "type": "object",
+      "properties": {
+        "effect": {
+          "$ref": "#/definitions/TaintEffect"
+        },
+        "key": {
+          "description": "Required. The taint key to be applied to a node.",
+          "type": "string",
+          "x-go-name": "Key"
+        },
+        "timeAdded": {
+          "$ref": "#/definitions/Time"
+        },
+        "value": {
+          "description": "Required. The taint value corresponding to the taint key.\n+optional",
+          "type": "string",
+          "x-go-name": "Value"
+        }
+      },
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "TaintEffect": {
+      "type": "string",
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "TaskDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "status": {
+          "$ref": "#/definitions/Status"
+        },
+        "stepsStatuses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StepStatus"
+          },
+          "x-go-name": "StepStatuses"
+        },
+        "type": {
+          "type": "string",
+          "x-go-name": "Type"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/kube"
+    },
+    "Template": {
+      "description": "By convention, name is a relative path within the scope of the chart's\nbase directory.",
+      "type": "object",
+      "title": "Template represents a template as a name/value pair.",
+      "properties": {
+        "data": {
+          "description": "Data is the template as byte data.",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "x-go-name": "Data"
+        },
+        "name": {
+          "description": "Name is the path-like name of the template.",
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "k8s.io/helm/pkg/proto/hapi/chart"
+    },
+    "Time": {
+      "description": "+protobuf.options.marshal=false\n+protobuf.as=Timestamp\n+protobuf.options.(gogoproto.goproto_stringer)=false",
+      "type": "object",
+      "title": "Time is a wrapper around time.Time which supports correct\nmarshaling to YAML and JSON.  Wrappers are provided for many\nof the factory methods that the time package offers.",
+      "x-go-package": "k8s.io/apimachinery/pkg/apis/meta/v1"
+    },
+    "Timestamp": {
+      "description": "# Examples\n\nExample 1: Compute Timestamp from POSIX `time()`.\n\nTimestamp timestamp;\ntimestamp.set_seconds(time(NULL));\ntimestamp.set_nanos(0);\n\nExample 2: Compute Timestamp from POSIX `gettimeofday()`.\n\nstruct timeval tv;\ngettimeofday(\u0026tv, NULL);\n\nTimestamp timestamp;\ntimestamp.set_seconds(tv.tv_sec);\ntimestamp.set_nanos(tv.tv_usec * 1000);\n\nExample 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\nFILETIME ft;\nGetSystemTimeAsFileTime(\u0026ft);\nUINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\nA Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\nis 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\nTimestamp timestamp;\ntimestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\ntimestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\nExample 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\nlong millis = System.currentTimeMillis();\n\nTimestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n.setNanos((int) ((millis % 1000) * 1000000)).build();\n\n\nExample 5: Compute Timestamp from current time in Python.\n\ntimestamp = Timestamp()\ntimestamp.GetCurrentTime()\n\n# JSON Mapping\n\nIn JSON format, the Timestamp type is encoded as a string in the\n[RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\nformat is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\nwhere {year} is always expressed using four digits while {month}, {day},\n{hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\nseconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\nare optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\nis required. A proto3 JSON serializer should always use UTC (as indicated by\n\"Z\") when printing the Timestamp type and a proto3 JSON parser should be\nable to accept both UTC and other timezones (as indicated by an offset).\n\nFor example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n01:30 UTC on January 15, 2017.\n\nIn JavaScript, one can convert a Date object to this format using the\nstandard [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString]\nmethod. In Python, a standard `datetime.datetime` object can be converted\nto this format using [`strftime`](https://docs.python.org/2/library/time.html#time.strftime)\nwith the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one\ncan use the Joda Time's [`ISODateTimeFormat.dateTime()`](\nhttp://www.joda.org/joda-time/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime--\n) to obtain a formatter capable of generating timestamps in this format.",
+      "type": "object",
+      "title": "A Timestamp represents a point in time independent of any time zone\nor calendar, represented as seconds and fractions of seconds at\nnanosecond resolution in UTC Epoch time. It is encoded using the\nProleptic Gregorian Calendar which extends the Gregorian calendar\nbackwards to year one. It is encoded assuming all minutes are 60\nseconds long, i.e. leap seconds are \"smeared\" so that no leap second\ntable is needed for interpretation. Range is from\n0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z.\nBy restricting to that range, we ensure that we can convert to\nand from  RFC 3339 date strings.\nSee [https://www.ietf.org/rfc/rfc3339.txt](https://www.ietf.org/rfc/rfc3339.txt).",
+      "properties": {
+        "nanos": {
+          "description": "Non-negative fractions of a second at nanosecond resolution. Negative\nsecond values with fractions must still have non-negative nanos values\nthat count forward in time. Must be from 0 to 999,999,999\ninclusive.",
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "Nanos"
+        },
+        "seconds": {
+          "description": "Represents seconds of UTC time since Unix epoch\n1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n9999-12-31T23:59:59Z inclusive.",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Seconds"
+        }
+      },
+      "x-go-package": "github.com/golang/protobuf/ptypes/timestamp"
+    },
+    "TokenAuthUser": {
+      "description": "https://kubernetes.io/docs/reference/access-authn-authz/authentication/#static-token-file",
+      "type": "object",
+      "title": "BasicAuthUser represents an entry of the static token file.",
+      "properties": {
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Groups"
+        },
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "token": {
+          "type": "string",
+          "x-go-name": "Token"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/profile"
+    },
+    "UID": {
+      "description": "UID is a type that holds unique ID values, including UUIDs.  Because we\ndon't ONLY use UUIDs, this is an alias to string.  Being a type captures\nintent and helps make sure that UIDs and names do not get conflated.",
+      "type": "string",
+      "x-go-package": "k8s.io/apimachinery/pkg/types"
+    },
+    "UniqueVolumeName": {
+      "type": "string",
+      "x-go-package": "k8s.io/api/core/v1"
+    },
+    "User": {
+      "description": "User is the representation of supergiant user",
+      "type": "object",
+      "properties": {
+        "encrypted_password": {
+          "type": "string",
+          "format": "string",
+          "x-go-name": "EncryptedPassword"
+        },
+        "login": {
+          "type": "string",
+          "x-go-name": "Login"
+        },
+        "password": {
+          "type": "string",
+          "x-go-name": "Password"
+        }
+      },
+      "x-go-package": "github.com/supergiant/control/pkg/user"
+    },
+    "Value": {
+      "type": "object",
+      "title": "Value describes a configuration value as a string.",
+      "properties": {
+        "value": {
+          "type": "string",
+          "x-go-name": "Value"
+        }
+      },
+      "x-go-package": "k8s.io/helm/pkg/proto/hapi/chart"
+    }
+  },
+  "responses": {
+    "accountRegionsResponse": {
+      "description": "accountRegionsResponse returns a list of supported regions for a given account.",
+      "schema": {
+        "$ref": "#/definitions/RegionSizes"
+      }
+    },
+    "accountResponse": {
+      "description": "accountResponse contains representations of a cloud accounts.",
+      "schema": {
+        "$ref": "#/definitions/CloudAccount"
+      }
+    },
+    "accountTypesResponse": {
+      "description": "accountTypesResponse contains a list of supported machine types for a given account.",
+      "schema": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "accountZonesResponse": {
+      "description": "accountZonesResponse contains a list of supported availability zones for a given account.",
+      "schema": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "addNodesResponse": {
+      "description": "addNodesResponse contains a list of provisioning tasks.",
+      "schema": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "authResponse": {
+      "description": "authResponse contains an auth header.",
+      "headers": {
+        "Access-Control-Expose-Headers": {
+          "type": "string",
+          "description": "AccessControlExposeHeaders header"
+        },
+        "Authorization": {
+          "type": "string",
+          "description": "Authorization header"
+        }
+      }
+    },
+    "chartResponse": {
+      "description": "chartResponse contains representations of a helm chart.",
+      "schema": {
+        "$ref": "#/definitions/ChartData"
+      }
+    },
+    "clusterMetricsResponse": {
+      "description": "clusterMetricsResponse contains kubernetes cluster metrics.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object"
+        }
+      }
+    },
+    "coldstartResponse": {
+      "description": "coldstartResponse tells if there is any user exists.",
+      "schema": {
+        "$ref": "#/definitions/ColdstartResponse"
+      }
+    },
+    "deleteReleaseResponse": {
+      "description": "deleteReleaseResponse contains a helm release details.",
+      "schema": {
+        "$ref": "#/definitions/ReleaseInfo"
+      }
+    },
+    "emptyResponse": {
+      "description": "emptyResponse represents an empty http response."
+    },
+    "errorResponse": {
+      "description": "errorResponse represents an error response.",
+      "schema": {
+        "$ref": "#/definitions/Message"
+      }
+    },
+    "importKubeResponse": {
+      "description": "importKubeResponse contains an id of a cluster.",
+      "schema": {
+        "$ref": "#/definitions/ImportResponse"
+      }
+    },
+    "installReleaseResponse": {
+      "description": "installReleaseResponse contains a task id.",
+      "schema": {
+        "$ref": "#/definitions/InstallReleaseResp"
+      }
+    },
+    "kubeResponse": {
+      "description": "kubeResponse contains an id of a cluster.",
+      "schema": {
+        "$ref": "#/definitions/Kube"
+      }
+    },
+    "kubeconfigResponse": {
+      "description": "kubeconfigResponse contains an kubeconfig for a cluster."
+    },
+    "listAccountsResponse": {
+      "description": "listAccountsResponse contains a list of cloud accounts.",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/CloudAccount"
+        }
+      }
+    },
+    "listChartsResponse": {
+      "description": "listChartsResponse contains a list of helm charts.",
+      "schema": {
+        "$ref": "#/definitions/ChartInfo"
+      }
+    },
+    "listKubesResponse": {
+      "description": "listKubesResponse contains a list of kube models.",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Kube"
+        }
+      }
+    },
+    "listNodesResponse": {
+      "description": "listNodesResponse contains a list of provisioning tasks.",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Node"
+        }
+      }
+    },
+    "listProfilesResponse": {
+      "description": "listProfilesResponse returns all kube profiles.",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Profile"
+        }
+      }
+    },
+    "listReleasesResponse": {
+      "description": "listReleasesResponse contains a list of helm releases.",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/ReleaseInfo"
+        }
+      }
+    },
+    "listReposResponse": {
+      "description": "listReposResponse contains a list of helm repos.",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/ReleaseInfo"
+        }
+      }
+    },
+    "listServicesResponse": {
+      "description": "listServicesResponse contains a list of service for proxying.",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/ServiceInfo"
+        }
+      }
+    },
+    "listTasksResponse": {
+      "description": "listTasksResponse contains a list of provisioning tasks.",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/TaskDTO"
+        }
+      }
+    },
+    "nodeMetricsResponse": {
+      "description": "nodeMetricsResponse contains kubernetes metrics for nodes.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "profileResponse": {
+      "description": "profileResponse contains representations of a kube profile.",
+      "schema": {
+        "$ref": "#/definitions/Profile"
+      }
+    },
+    "provisionResponse": {
+      "description": "provisionResponse contains a cluster provisioning metadata.",
+      "schema": {
+        "$ref": "#/definitions/ProvisionResponse"
+      }
+    },
+    "releaseResponse": {
+      "description": "releaseResponse contains a list of helm releases.",
+      "schema": {
+        "$ref": "#/definitions/Release"
+      }
+    },
+    "repositoryResponse": {
+      "description": "repositoryResponse contains representations of a helm repository.",
+      "schema": {
+        "$ref": "#/definitions/ReleaseInfo"
+      }
+    },
+    "taskResponse": {
+      "description": "taskResponse contains representations of a workflow task."
+    },
+    "versionResponse": {
+      "description": "versionResponse contains a supergiant control version."
+    }
+  },
+  "securityDefinitions": {
+    "AuthorizationHeaderToken": {
+      "description": "This scheme uses the header \"Authorization: Bearer {JWT token}\"",
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

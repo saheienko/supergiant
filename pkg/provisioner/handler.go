@@ -73,6 +73,14 @@ func NewHandler(kubeService KubeGetter,
 }
 
 func (h *Handler) Register(m *mux.Router) {
+	// swagger:route POST /v1/api/provision kubes provision
+	//
+	// Provision a kubernetes cluster.
+	//
+	// Responses:
+	// default: errorResponse
+	// 202: provisionResponse
+	//
 	m.HandleFunc("/provision", h.Provision).Methods(http.MethodPost)
 }
 

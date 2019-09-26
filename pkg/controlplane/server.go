@@ -4,7 +4,6 @@ import (
 	"context"
 	"crypto/tls"
 	"fmt"
-	"github.com/supergiant/control/pkg/workflows/steps/helm"
 	"net/http"
 	_ "net/http/pprof"
 	"net/url"
@@ -49,6 +48,7 @@ import (
 	"github.com/supergiant/control/pkg/workflows/steps/drain"
 	"github.com/supergiant/control/pkg/workflows/steps/evacuate"
 	"github.com/supergiant/control/pkg/workflows/steps/gce"
+	"github.com/supergiant/control/pkg/workflows/steps/helm"
 	"github.com/supergiant/control/pkg/workflows/steps/install_app"
 	"github.com/supergiant/control/pkg/workflows/steps/kubeadm"
 	"github.com/supergiant/control/pkg/workflows/steps/kubelet"
@@ -184,7 +184,7 @@ func configureApplication(cfg *Config) (*mux.Router, error) {
 	//TODO will work for now, but we should revisit ETCD configuration later
 	router := mux.NewRouter()
 
-	protectedAPI := router.PathPrefix("/v1/api").Subrouter()
+	protectedAPI := router.PathPrefix("/api/v1").Subrouter()
 	repository, err := storage.GetStorage(cfg.StorageMode, cfg.StorageURI)
 
 	if err != nil {
@@ -201,7 +201,7 @@ func configureApplication(cfg *Config) (*mux.Router, error) {
 	userService := user.NewService(user.DefaultStoragePrefix, repository)
 	userHandler := user.NewHandler(userService, jwtService)
 
-	router.HandleFunc("/version", NewVersionHandler(cfg.Version))
+	router.HandleFunc("/version", NewVersionHandler(cfg.Version)).Methods(http.MethodGet)
 	router.HandleFunc("/auth", userHandler.Authenticate).Methods(http.MethodPost)
 	router.HandleFunc("/root", userHandler.RegisterRootUser).Methods(http.MethodPost)
 	router.HandleFunc("/coldstart", userHandler.IsColdStart).Methods(http.MethodGet)
@@ -393,6 +393,15 @@ func trimPrefix(h http.Handler) http.Handler {
 }
 
 func NewVersionHandler(version string) func(w http.ResponseWriter, r *http.Request) {
+	// swagger:route GET /version version version
+	//
+	// Get a version.
+	//
+	// Responses:
+	// default: errorResponse
+	// 200: versionResponse
+	//
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, version)
 	}

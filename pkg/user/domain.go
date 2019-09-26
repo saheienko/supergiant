@@ -8,7 +8,8 @@ import (
 
 // User is the representation of supergiant user
 type User struct {
-	Login             string `json:"login" valid:"required, length(1|32)"`
+	Login string `json:"login" valid:"required, length(1|32)"`
+	// swagger:strfmt string
 	EncryptedPassword []byte `json:"encrypted_password" valid:"-"`
 	Password          string `json:"password" valid:"required, length(8|24), printableascii"`
 }
